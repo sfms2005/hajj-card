@@ -3,7 +3,14 @@
 import html2canvas from "html2canvas";
 import { Download, Home, Share2 } from "lucide-react";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import type { HajjCardDef } from "@/lib/hajj-cards-data";
 
@@ -12,19 +19,19 @@ type HajjCategoryViewProps = {
   cards: HajjCardDef[];
 };
 
-function CardFace({
-  card,
-  name,
-  className,
-  captureRef,
-  isThumbnail = false,
-}: {
-  card: HajjCardDef;
-  name: string;
-  className?: string;
-  captureRef?: React.RefObject<HTMLDivElement | null>;
-  isThumbnail?: boolean;
-}) {
+/** Base gradient behind photo so the card is never visually empty. */
+const CARD_BASE_GRADIENT =
+  "absolute inset-0 z-0 bg-gradient-to-br from-[#1e3a5f] via-[#2d6a4f] to-[#0f172a]";
+
+const CardFace = forwardRef<
+  HTMLDivElement,
+  {
+    card: HajjCardDef;
+    name: string;
+    className?: string;
+    isThumbnail?: boolean;
+  }
+>(function CardFace({ card, name, className, isThumbnail = false }, ref) {
   const [bgUrl, setBgUrl] = useState(card.placeholderImage);
 
   useEffect(() => {
@@ -57,12 +64,19 @@ function CardFace({
 
   return (
     <div
-      ref={captureRef}
-      className={`relative aspect-[4/5] w-full overflow-hidden rounded-[20px] bg-[#2a2520] bg-cover bg-center ${card.style.shell} ${className ?? ""}`}
-      style={{ backgroundImage: `url('${bgUrl}')` }}
+      ref={ref}
+      className={`relative aspect-[4/5] w-full overflow-hidden rounded-[20px] bg-[#1a2f4a] bg-cover bg-center ${card.style.shell} ${className ?? ""}`}
     >
+      <div className={CARD_BASE_GRADIENT} aria-hidden />
+      {bgUrl ? (
+        <div
+          className="absolute inset-0 z-[1] bg-cover bg-center"
+          style={{ backgroundImage: `url('${bgUrl}')` }}
+          aria-hidden
+        />
+      ) : null}
       <div
-        className={`pointer-events-none absolute inset-0 ${card.style.overlay}`}
+        className={`pointer-events-none absolute inset-0 z-[2] ${card.style.overlay}`}
         aria-hidden
       />
       <div
@@ -91,32 +105,127 @@ function CardFace({
       </div>
     </div>
   );
+});
+
+CardFace.displayName = "CardFace";
+
+/**
+ * Download PNG: prefer object URL from toBlob; always fall back to toDataURL on `<a href>`.
+ * Link is appended to body, clicked, then removed.
+ */
+function downloadPngFromCanvas(
+  canvas: HTMLCanvasElement,
+  filename: string,
+): Promise<void> {
+  return new Promise((resolve) => {
+    const link = document.createElement("a");
+    link.download = filename;
+    link.rel = "noopener";
+    link.style.display = "none";
+    link.style.position = "fixed";
+    link.style.left = "-9999px";
+
+    const finish = (href: string, revoke?: () => void) => {
+      link.href = href;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      if (revoke) {
+        window.setTimeout(() => revoke(), 250);
+      }
+      resolve();
+    };
+
+    try {
+      canvas.toBlob(
+        (blob) => {
+          if (blob && blob.size > 0) {
+            const objectUrl = URL.createObjectURL(blob);
+            console.log("[hajj-cards] download: using object URL from toBlob");
+            finish(objectUrl, () => URL.revokeObjectURL(objectUrl));
+            return;
+          }
+          console.log(
+            "[hajj-cards] download: toBlob empty — using toDataURL fallback",
+          );
+          finish(canvas.toDataURL("image/png"));
+        },
+        "image/png",
+        1,
+      );
+    } catch {
+      console.log(
+        "[hajj-cards] download: toBlob threw — using toDataURL fallback",
+      );
+      finish(canvas.toDataURL("image/png"));
+    }
+  });
 }
 
-function downloadBlob(blob: Blob, filename: string) {
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  link.rel = "noopener";
-  link.style.display = "none";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  window.setTimeout(() => {
-    URL.revokeObjectURL(url);
-  }, 250);
+function isUserAbort(err: unknown): boolean {
+  if (err instanceof DOMException && err.name === "AbortError") return true;
+  if (err instanceof Error && err.name === "AbortError") return true;
+  return false;
+}
+
+/** Share with `files` when possible; otherwise download the PNG. */
+async function sharePngOrDownload(
+  canvas: HTMLCanvasElement,
+  blob: Blob,
+  filename: string,
+  title: string,
+  text: string,
+): Promise<void> {
+  const nav = typeof navigator !== "undefined" ? navigator : undefined;
+  const file = new File([blob], filename, {
+    type: "image/png",
+    lastModified: Date.now(),
+  });
+
+  if (!nav?.share) {
+    console.log("[hajj-cards] share: Web Share not available — download");
+    await downloadPngFromCanvas(canvas, filename);
+    return;
+  }
+
+  try {
+    if (typeof nav.canShare === "function" && !nav.canShare({ files: [file] })) {
+      console.log("[hajj-cards] share: canShare(files) false — download");
+      await downloadPngFromCanvas(canvas, filename);
+      return;
+    }
+  } catch (e) {
+    console.log("[hajj-cards] share: canShare threw — download", e);
+    await downloadPngFromCanvas(canvas, filename);
+    return;
+  }
+
+  try {
+    console.log("[hajj-cards] share: calling navigator.share with files");
+    await nav.share({
+      files: [file],
+      title,
+      text,
+    });
+  } catch (err) {
+    if (isUserAbort(err)) {
+      console.log("[hajj-cards] share: user cancelled");
+      return;
+    }
+    console.log("[hajj-cards] share: share failed — download", err);
+    await downloadPngFromCanvas(canvas, filename);
+  }
 }
 
 async function canvasToPngBlob(canvas: HTMLCanvasElement): Promise<Blob | null> {
-  const fromToBlob = await new Promise<Blob | null>((resolve) => {
+  const fromBlob = await new Promise<Blob | null>((resolve) => {
     try {
       canvas.toBlob((b) => resolve(b), "image/png", 1);
     } catch {
       resolve(null);
     }
   });
-  if (fromToBlob && fromToBlob.size > 0) return fromToBlob;
+  if (fromBlob && fromBlob.size > 0) return fromBlob;
 
   try {
     const dataUrl = canvas.toDataURL("image/png");
@@ -128,51 +237,6 @@ async function canvasToPngBlob(canvas: HTMLCanvasElement): Promise<Blob | null> 
   }
 }
 
-function isUserAbort(err: unknown): boolean {
-  if (err instanceof DOMException && err.name === "AbortError") return true;
-  if (err instanceof Error && err.name === "AbortError") return true;
-  return false;
-}
-
-async function shareOrDownloadPng(
-  blob: Blob,
-  filename: string,
-  file: File,
-  title: string,
-  text: string,
-): Promise<void> {
-  const nav = typeof navigator !== "undefined" ? navigator : undefined;
-
-  if (nav?.share) {
-    try {
-      if (typeof nav.canShare === "function") {
-        if (!nav.canShare({ files: [file] })) {
-          downloadBlob(blob, filename);
-          return;
-        }
-      }
-    } catch {
-      downloadBlob(blob, filename);
-      return;
-    }
-
-    try {
-      await nav.share({
-        files: [file],
-        title,
-        text,
-      });
-      return;
-    } catch (err) {
-      if (isUserAbort(err)) return;
-      downloadBlob(blob, filename);
-      return;
-    }
-  }
-
-  downloadBlob(blob, filename);
-}
-
 export function HajjCategoryView({
   pageTitle,
   cards,
@@ -180,7 +244,8 @@ export function HajjCategoryView({
   const [selectedId, setSelectedId] = useState(cards[0]?.id ?? "");
   const [name, setName] = useState("");
   const [pending, setPending] = useState<null | "download" | "share">(null);
-  const captureRef = useRef<HTMLDivElement>(null);
+  /** Attached only to the large preview card (never thumbnails). */
+  const previewCardRef = useRef<HTMLDivElement>(null);
   const exportInFlightRef = useRef(false);
 
   const selected = useMemo(
@@ -188,23 +253,25 @@ export function HajjCategoryView({
     [cards, selectedId],
   );
 
-  /** Latin filename avoids download/share issues on some platforms */
   const exportFilename = useMemo(() => {
     const id = selected?.id ?? "card";
     const safe = id.replace(/[^a-zA-Z0-9-]/g, "");
     return `hajj-card-${safe || "card"}.png`;
   }, [selected?.id]);
 
-  const captureCardToCanvas = useCallback(async () => {
-    const node = captureRef.current;
-    if (!node) return null;
+  const capturePreviewToCanvas = useCallback(async () => {
+    const node = previewCardRef.current;
+    if (!node) {
+      console.warn("[hajj-cards] capture: previewCardRef.current is null");
+      return null;
+    }
 
     await new Promise<void>((resolve) => {
       requestAnimationFrame(() => resolve());
     });
 
     try {
-      return await html2canvas(node, {
+      const canvas = await html2canvas(node, {
         scale: 2,
         useCORS: true,
         allowTaint: false,
@@ -212,57 +279,58 @@ export function HajjCategoryView({
         backgroundColor: null,
         imageTimeout: 15_000,
       });
-    } catch {
+      return canvas;
+    } catch (e) {
+      console.error("[hajj-cards] capture: html2canvas failed", e);
       return null;
     }
   }, []);
 
   const handleDownload = useCallback(async () => {
+    console.log("[hajj-cards] download button clicked");
     if (exportInFlightRef.current) return;
     exportInFlightRef.current = true;
     setPending("download");
     try {
-      const canvas = await captureCardToCanvas();
+      const canvas = await capturePreviewToCanvas();
       if (!canvas) return;
-      const blob = await canvasToPngBlob(canvas);
-      if (blob) downloadBlob(blob, exportFilename);
-    } catch {
-      /* swallow — avoids unhandled rejection noise */
+      await downloadPngFromCanvas(canvas, exportFilename);
     } finally {
       exportInFlightRef.current = false;
       setPending(null);
     }
-  }, [captureCardToCanvas, exportFilename]);
+  }, [capturePreviewToCanvas, exportFilename]);
 
   const handleShare = useCallback(async () => {
+    console.log("[hajj-cards] share button clicked");
     if (exportInFlightRef.current) return;
     exportInFlightRef.current = true;
     setPending("share");
     try {
-      const canvas = await captureCardToCanvas();
+      const canvas = await capturePreviewToCanvas();
       if (!canvas) return;
+
       const blob = await canvasToPngBlob(canvas);
-      if (!blob) return;
+      if (!blob) {
+        console.log(
+          "[hajj-cards] share: no blob from canvas — using download only",
+        );
+        await downloadPngFromCanvas(canvas, exportFilename);
+        return;
+      }
 
-      const file = new File([blob], exportFilename, {
-        type: "image/png",
-        lastModified: Date.now(),
-      });
-
-      await shareOrDownloadPng(
+      await sharePngOrDownload(
+        canvas,
         blob,
         exportFilename,
-        file,
         pageTitle,
         selected?.message ?? "",
       );
-    } catch {
-      /* swallow */
     } finally {
       exportInFlightRef.current = false;
       setPending(null);
     }
-  }, [captureCardToCanvas, exportFilename, pageTitle, selected?.message]);
+  }, [capturePreviewToCanvas, exportFilename, pageTitle, selected?.message]);
 
   if (!selected) {
     return null;
@@ -291,9 +359,7 @@ export function HajjCategoryView({
             اختيار التصميم
           </h2>
           <p className="text-center text-sm text-[#1e3a5f]/65">اختر بطاقتك</p>
-          <div
-            className="grid grid-cols-2 gap-4 sm:grid-cols-3"
-          >
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
             {cards.map((card) => {
               const isActive = card.id === selected.id;
               return (
@@ -334,9 +400,9 @@ export function HajjCategoryView({
           <div className="mx-auto w-full max-w-md">
             <div key={selected.id} className="hajj-preview-animate">
               <CardFace
+                ref={previewCardRef}
                 card={selected}
                 name={name}
-                captureRef={captureRef}
               />
             </div>
           </div>
@@ -358,7 +424,7 @@ export function HajjCategoryView({
             <div className="flex flex-col gap-3 sm:flex-row-reverse">
               <button
                 type="button"
-                onClick={handleDownload}
+                onClick={() => void handleDownload()}
                 disabled={pending !== null}
                 className="inline-flex flex-1 items-center justify-center gap-2 rounded-[20px] bg-[#1e3a5f] px-5 py-4 text-sm font-semibold text-[#fdfbf5] shadow-[0_14px_32px_-18px_rgba(30,58,95,0.6)] transition hover:bg-[#152a45] disabled:cursor-not-allowed disabled:opacity-60"
               >
@@ -367,7 +433,7 @@ export function HajjCategoryView({
               </button>
               <button
                 type="button"
-                onClick={handleShare}
+                onClick={() => void handleShare()}
                 disabled={pending !== null}
                 className="inline-flex flex-1 items-center justify-center gap-2 rounded-[20px] border border-[#1e3a5f]/15 bg-white/95 px-5 py-4 text-sm font-semibold text-[#1e3a5f] shadow-sm transition hover:border-[#c9a227]/45 hover:text-[#152a45] disabled:cursor-not-allowed disabled:opacity-60"
               >
