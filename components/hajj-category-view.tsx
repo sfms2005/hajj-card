@@ -68,8 +68,79 @@ function downloadBlob(blob: Blob, filename: string) {
   const link = document.createElement("a");
   link.href = url;
   link.download = filename;
+  link.rel = "noopener";
+  link.style.display = "none";
+  document.body.appendChild(link);
   link.click();
-  URL.revokeObjectURL(url);
+  document.body.removeChild(link);
+  window.setTimeout(() => {
+    URL.revokeObjectURL(url);
+  }, 250);
+}
+
+async function canvasToPngBlob(canvas: HTMLCanvasElement): Promise<Blob | null> {
+  const fromToBlob = await new Promise<Blob | null>((resolve) => {
+    try {
+      canvas.toBlob((b) => resolve(b), "image/png", 1);
+    } catch {
+      resolve(null);
+    }
+  });
+  if (fromToBlob && fromToBlob.size > 0) return fromToBlob;
+
+  try {
+    const dataUrl = canvas.toDataURL("image/png");
+    const res = await fetch(dataUrl);
+    const blob = await res.blob();
+    return blob.size > 0 ? blob : null;
+  } catch {
+    return null;
+  }
+}
+
+function isUserAbort(err: unknown): boolean {
+  if (err instanceof DOMException && err.name === "AbortError") return true;
+  if (err instanceof Error && err.name === "AbortError") return true;
+  return false;
+}
+
+async function shareOrDownloadPng(
+  blob: Blob,
+  filename: string,
+  file: File,
+  title: string,
+  text: string,
+): Promise<void> {
+  const nav = typeof navigator !== "undefined" ? navigator : undefined;
+
+  if (nav?.share) {
+    try {
+      if (typeof nav.canShare === "function") {
+        if (!nav.canShare({ files: [file] })) {
+          downloadBlob(blob, filename);
+          return;
+        }
+      }
+    } catch {
+      downloadBlob(blob, filename);
+      return;
+    }
+
+    try {
+      await nav.share({
+        files: [file],
+        title,
+        text,
+      });
+      return;
+    } catch (err) {
+      if (isUserAbort(err)) return;
+      downloadBlob(blob, filename);
+      return;
+    }
+  }
+
+  downloadBlob(blob, filename);
 }
 
 export function HajjCategoryView({
@@ -80,78 +151,88 @@ export function HajjCategoryView({
   const [name, setName] = useState("");
   const [pending, setPending] = useState<null | "download" | "share">(null);
   const captureRef = useRef<HTMLDivElement>(null);
+  const exportInFlightRef = useRef(false);
 
   const selected = useMemo(
     () => cards.find((c) => c.id === selectedId) ?? cards[0],
     [cards, selectedId],
   );
 
-  const safeFilename = useMemo(() => {
-    const base = pageTitle.replace(/\s+/g, "-");
-    return `بطاقة-${base}.png`;
-  }, [pageTitle]);
+  /** Latin filename avoids download/share issues on some platforms */
+  const exportFilename = useMemo(() => {
+    const id = selected?.id ?? "card";
+    const safe = id.replace(/[^a-zA-Z0-9-]/g, "");
+    return `hajj-card-${safe || "card"}.png`;
+  }, [selected?.id]);
 
-  const renderCanvas = useCallback(async () => {
+  const captureCardToCanvas = useCallback(async () => {
     const node = captureRef.current;
     if (!node) return null;
-    return html2canvas(node, {
-      scale: 2,
-      useCORS: true,
-      logging: false,
-      backgroundColor: null,
+
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => resolve());
     });
+
+    try {
+      return await html2canvas(node, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: false,
+        logging: false,
+        backgroundColor: null,
+        imageTimeout: 15_000,
+      });
+    } catch {
+      return null;
+    }
   }, []);
 
   const handleDownload = useCallback(async () => {
+    if (exportInFlightRef.current) return;
+    exportInFlightRef.current = true;
     setPending("download");
     try {
-      const canvas = await renderCanvas();
+      const canvas = await captureCardToCanvas();
       if (!canvas) return;
-      const blob = await new Promise<Blob | null>((resolve) => {
-        canvas.toBlob((b) => resolve(b), "image/png");
-      });
-      if (blob) downloadBlob(blob, safeFilename);
+      const blob = await canvasToPngBlob(canvas);
+      if (blob) downloadBlob(blob, exportFilename);
+    } catch {
+      /* swallow — avoids unhandled rejection noise */
     } finally {
+      exportInFlightRef.current = false;
       setPending(null);
     }
-  }, [renderCanvas, safeFilename]);
+  }, [captureCardToCanvas, exportFilename]);
 
   const handleShare = useCallback(async () => {
+    if (exportInFlightRef.current) return;
+    exportInFlightRef.current = true;
     setPending("share");
     try {
-      const canvas = await renderCanvas();
+      const canvas = await captureCardToCanvas();
       if (!canvas) return;
-      const blob: Blob | null = await new Promise((resolve) => {
-        canvas.toBlob((b) => resolve(b), "image/png");
-      });
+      const blob = await canvasToPngBlob(canvas);
       if (!blob) return;
 
-      const file = new File([blob], safeFilename, { type: "image/png" });
+      const file = new File([blob], exportFilename, {
+        type: "image/png",
+        lastModified: Date.now(),
+      });
 
-      const canShareFiles =
-        typeof navigator !== "undefined" &&
-        typeof navigator.share === "function" &&
-        typeof navigator.canShare === "function" &&
-        navigator.canShare({ files: [file] });
-
-      if (canShareFiles) {
-        try {
-          await navigator.share({
-            files: [file],
-            title: pageTitle,
-            text: selected.message,
-          });
-          return;
-        } catch (err) {
-          if (err instanceof Error && err.name === "AbortError") return;
-        }
-      }
-
-      downloadBlob(blob, safeFilename);
+      await shareOrDownloadPng(
+        blob,
+        exportFilename,
+        file,
+        pageTitle,
+        selected?.message ?? "",
+      );
+    } catch {
+      /* swallow */
     } finally {
+      exportInFlightRef.current = false;
       setPending(null);
     }
-  }, [pageTitle, renderCanvas, safeFilename, selected.message]);
+  }, [captureCardToCanvas, exportFilename, pageTitle, selected?.message]);
 
   if (!selected) {
     return null;
