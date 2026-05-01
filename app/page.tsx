@@ -1,65 +1,74 @@
-import Image from "next/image";
+import { Gift, Landmark, Moon, Sun } from "lucide-react";
+import Link from "next/link";
 
-export default function Home() {
+const destinations = [
+  {
+    href: "/mina",
+    label: "منى",
+    description: "بطاقات أيام التشريق",
+    icon: Landmark,
+  },
+  {
+    href: "/arafah",
+    label: "عرفة",
+    description: "يوم الدعاء الأعظم",
+    icon: Sun,
+  },
+  {
+    href: "/muzdalifah",
+    label: "مزدلفة",
+    description: "سكينة وليلة خير",
+    icon: Moon,
+  },
+  {
+    href: "/eid",
+    label: "العيد",
+    description: "فرحة العيد وبهجته",
+    icon: Gift,
+  },
+] as const;
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="relative min-h-screen px-4 py-16 sm:px-6 sm:py-24">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(45,106,79,0.14),transparent_55%),radial-gradient(circle_at_90%_60%,rgba(201,162,39,0.15),transparent_45%)]" />
+
+      <div className="mx-auto flex max-w-lg flex-col items-center gap-14">
+        <header className="flex flex-col items-center gap-4 text-center">
+          <p className="text-xs font-medium tracking-[0.28em] text-[#2d6a4f]">
+            حج مبرور وذنب مغفور
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+          <h1 className="text-3xl font-semibold leading-tight text-[#152a45] sm:text-4xl">
+            بطاقات الحج والعيد
+          </h1>
+          <p className="max-w-sm text-sm leading-relaxed text-[#1e3a5f]/68">
+            اختر الوجهة، ثم الصمّم بطاقتك وشاركها مع أحبابك
+          </p>
+        </header>
+
+        <nav
+          className="grid w-full gap-4 sm:grid-cols-2"
+          aria-label="تصفح بطاقات المناسك"
+        >
+          {destinations.map(({ href, label, description, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className="group flex flex-col gap-4 rounded-[20px] border border-[#1e3a5f]/10 bg-white/75 p-6 shadow-[0_16px_40px_-24px_rgba(30,58,95,0.35)] backdrop-blur-sm transition duration-300 ease-out hover:-translate-y-0.5 hover:border-[#c9a227]/40 hover:shadow-[0_22px_48px_-20px_rgba(45,106,79,0.28)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c9a227] focus-visible:ring-offset-2 focus-visible:ring-offset-[#f4f1e8]"
+            >
+              <span className="inline-flex size-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2d6a4f]/12 to-[#1e3a5f]/10 text-[#1e3a5f] transition group-hover:from-[#c9a227]/20 group-hover:to-[#2d6a4f]/15">
+                <Icon className="size-[22px]" strokeWidth={1.75} aria-hidden />
+              </span>
+              <span className="flex flex-col gap-1 text-right">
+                <span className="text-lg font-semibold text-[#152a45]">
+                  {label}
+                </span>
+                <span className="text-sm text-[#1e3a5f]/60">{description}</span>
+              </span>
+            </Link>
+          ))}
+        </nav>
+      </div>
     </div>
   );
 }

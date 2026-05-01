@@ -1,0 +1,272 @@
+"use client";
+
+import html2canvas from "html2canvas";
+import { Download, Home, Share2 } from "lucide-react";
+import Link from "next/link";
+import { useCallback, useMemo, useRef, useState } from "react";
+
+import type { HajjCardDef } from "@/lib/hajj-cards-data";
+
+type HajjCategoryViewProps = {
+  pageTitle: string;
+  cards: HajjCardDef[];
+};
+
+function CardFace({
+  card,
+  name,
+  className,
+  captureRef,
+  isThumbnail = false,
+}: {
+  card: HajjCardDef;
+  name: string;
+  className?: string;
+  captureRef?: React.RefObject<HTMLDivElement | null>;
+  isThumbnail?: boolean;
+}) {
+  return (
+    <div
+      ref={captureRef}
+      className={`relative aspect-[4/5] w-full overflow-hidden rounded-[20px] bg-[#d6d3cd] bg-cover bg-center ${card.style.shell} ${className ?? ""}`}
+      style={{ backgroundImage: `url('${card.image}')` }}
+    >
+      <div
+        className={`pointer-events-none absolute inset-0 ${card.style.overlay}`}
+        aria-hidden
+      />
+      <div
+        className={`relative z-10 flex h-full flex-col items-center justify-center text-center ${
+          isThumbnail ? "px-3 py-5 sm:px-4 sm:py-6" : "px-6 py-10 sm:px-10 sm:py-12"
+        }`}
+      >
+        <p
+          className={`${card.style.message} ${
+            isThumbnail
+              ? "!text-[0.68rem] !leading-snug sm:!text-xs"
+              : ""
+          }`}
+        >
+          {card.message}
+        </p>
+        <p
+          className={`${card.style.name} ${
+            isThumbnail
+              ? "!mt-2 !text-[0.62rem] sm:!text-[0.72rem]"
+              : ""
+          } ${!name.trim() && !isThumbnail ? "min-h-[1.5em] opacity-0" : ""}`}
+        >
+          {name.trim() || (isThumbnail ? "" : "\u00a0")}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function downloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+export function HajjCategoryView({
+  pageTitle,
+  cards,
+}: HajjCategoryViewProps) {
+  const [selectedId, setSelectedId] = useState(cards[0]?.id ?? "");
+  const [name, setName] = useState("");
+  const [pending, setPending] = useState<null | "download" | "share">(null);
+  const captureRef = useRef<HTMLDivElement>(null);
+
+  const selected = useMemo(
+    () => cards.find((c) => c.id === selectedId) ?? cards[0],
+    [cards, selectedId],
+  );
+
+  const safeFilename = useMemo(() => {
+    const base = pageTitle.replace(/\s+/g, "-");
+    return `بطاقة-${base}.png`;
+  }, [pageTitle]);
+
+  const renderCanvas = useCallback(async () => {
+    const node = captureRef.current;
+    if (!node) return null;
+    return html2canvas(node, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      backgroundColor: null,
+    });
+  }, []);
+
+  const handleDownload = useCallback(async () => {
+    setPending("download");
+    try {
+      const canvas = await renderCanvas();
+      if (!canvas) return;
+      const blob = await new Promise<Blob | null>((resolve) => {
+        canvas.toBlob((b) => resolve(b), "image/png");
+      });
+      if (blob) downloadBlob(blob, safeFilename);
+    } finally {
+      setPending(null);
+    }
+  }, [renderCanvas, safeFilename]);
+
+  const handleShare = useCallback(async () => {
+    setPending("share");
+    try {
+      const canvas = await renderCanvas();
+      if (!canvas) return;
+      const blob: Blob | null = await new Promise((resolve) => {
+        canvas.toBlob((b) => resolve(b), "image/png");
+      });
+      if (!blob) return;
+
+      const file = new File([blob], safeFilename, { type: "image/png" });
+
+      const canShareFiles =
+        typeof navigator !== "undefined" &&
+        typeof navigator.share === "function" &&
+        typeof navigator.canShare === "function" &&
+        navigator.canShare({ files: [file] });
+
+      if (canShareFiles) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: pageTitle,
+            text: selected.message,
+          });
+          return;
+        } catch (err) {
+          if (err instanceof Error && err.name === "AbortError") return;
+        }
+      }
+
+      downloadBlob(blob, safeFilename);
+    } finally {
+      setPending(null);
+    }
+  }, [pageTitle, renderCanvas, safeFilename, selected.message]);
+
+  if (!selected) {
+    return null;
+  }
+
+  return (
+    <div className="relative min-h-screen pb-16 pt-10 sm:pb-20 sm:pt-14">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_0%,rgba(45,106,79,0.08),transparent_45%),radial-gradient(circle_at_90%_20%,rgba(201,162,39,0.12),transparent_40%),radial-gradient(circle_at_50%_100%,rgba(30,58,95,0.1),transparent_45%)]" />
+
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 px-4 sm:px-6">
+        <header className="flex flex-col items-center gap-6 text-center">
+          <Link
+            href="/"
+            className="group inline-flex items-center gap-2 rounded-full border border-[#1e3a5f]/15 bg-white/70 px-4 py-2 text-sm font-medium text-[#1e3a5f]/85 shadow-sm backdrop-blur-sm transition hover:border-[#c9a227]/45 hover:text-[#1e3a5f]"
+          >
+            <Home className="size-[18px] shrink-0 opacity-80" strokeWidth={1.75} />
+            <span>الرئيسية</span>
+          </Link>
+          <h1 className="text-3xl font-semibold text-[#152a45] sm:text-4xl">
+            {pageTitle}
+          </h1>
+        </header>
+
+        <section className="flex flex-col gap-4" aria-labelledby="cards-heading">
+          <h2 id="cards-heading" className="sr-only">
+            اختيار التصميم
+          </h2>
+          <p className="text-center text-sm text-[#1e3a5f]/65">اختر بطاقتك</p>
+          <div
+            className="grid grid-cols-2 gap-4 sm:grid-cols-3"
+          >
+            {cards.map((card) => {
+              const isActive = card.id === selected.id;
+              return (
+                <button
+                  key={card.id}
+                  type="button"
+                  onClick={() => setSelectedId(card.id)}
+                  aria-pressed={isActive}
+                  className={`group relative rounded-[20px] p-0 text-right transition duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c9a227] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${
+                    isActive
+                      ? "scale-[1.02] shadow-[0_20px_46px_-20px_rgba(30,58,95,0.55)]"
+                      : "opacity-95 hover:scale-[1.02] hover:shadow-[0_14px_34px_-18px_rgba(15,61,46,0.4)]"
+                  }`}
+                >
+                  <span
+                    className={`pointer-events-none absolute inset-0 z-20 rounded-[20px] transition duration-300 ${
+                      isActive
+                        ? "ring-2 ring-[#c9a227] ring-offset-2 ring-offset-[#f4f1e8]"
+                        : "ring-0 ring-offset-0 group-hover:ring-1 group-hover:ring-[#2d6a4f]/35"
+                    }`}
+                  />
+                  <CardFace
+                    card={card}
+                    name={name}
+                    isThumbnail
+                    className="origin-center transition duration-500 ease-out group-active:scale-[0.99]"
+                  />
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="flex flex-col gap-6" aria-labelledby="preview-heading">
+          <h2 id="preview-heading" className="sr-only">
+            المعاينة
+          </h2>
+          <div className="mx-auto w-full max-w-md">
+            <div key={selected.id} className="hajj-preview-animate">
+              <CardFace
+                card={selected}
+                name={name}
+                captureRef={captureRef}
+              />
+            </div>
+          </div>
+
+          <div className="mx-auto w-full max-w-md space-y-4">
+            <label className="sr-only" htmlFor="visitor-name">
+              الاسم
+            </label>
+            <input
+              id="visitor-name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="اكتب اسمك"
+              autoComplete="name"
+              className="w-full rounded-[20px] border border-[#1e3a5f]/12 bg-white/90 px-5 py-4 text-base text-[#152a45] shadow-sm outline-none backdrop-blur-sm transition placeholder:text-[#1e3a5f]/40 focus:border-[#2d6a4f]/35 focus:ring-2 focus:ring-[#c9a227]/25"
+            />
+
+            <div className="flex flex-col gap-3 sm:flex-row-reverse">
+              <button
+                type="button"
+                onClick={handleDownload}
+                disabled={pending !== null}
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-[20px] bg-[#1e3a5f] px-5 py-4 text-sm font-semibold text-[#fdfbf5] shadow-[0_14px_32px_-18px_rgba(30,58,95,0.6)] transition hover:bg-[#152a45] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <Download className="size-5 shrink-0" strokeWidth={1.75} />
+                {pending === "download" ? "جاري التحميل…" : "تحميل البطاقة"}
+              </button>
+              <button
+                type="button"
+                onClick={handleShare}
+                disabled={pending !== null}
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-[20px] border border-[#1e3a5f]/15 bg-white/95 px-5 py-4 text-sm font-semibold text-[#1e3a5f] shadow-sm transition hover:border-[#c9a227]/45 hover:text-[#152a45] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <Share2 className="size-5 shrink-0" strokeWidth={1.75} />
+                {pending === "share" ? "جاري المشاركة…" : "مشاركة"}
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
