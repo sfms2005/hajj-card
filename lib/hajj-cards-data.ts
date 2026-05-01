@@ -9,7 +9,10 @@ export type CardVisualStyle = {
 
 export type HajjCardDef = {
   id: string;
+  /** Prefer `/public` asset; falls back to `placeholderImage` if missing or failed to load */
   image: string;
+  /** Remote URL used when local `image` is unavailable (unique per card) */
+  placeholderImage: string;
   message: string;
   style: CardVisualStyle;
 };
@@ -18,6 +21,8 @@ export const minaCards: HajjCardDef[] = [
   {
     id: "mina-1",
     image: "/mina1.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1600&q=85",
     message: "اللهم تقبل منا ومنكم",
     style: {
       shell:
@@ -32,6 +37,8 @@ export const minaCards: HajjCardDef[] = [
   {
     id: "mina-2",
     image: "/mina2.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1600&q=85",
     message: "اللهم اجعلها حجًا مبرورًا",
     style: {
       shell:
@@ -46,6 +53,8 @@ export const minaCards: HajjCardDef[] = [
   {
     id: "mina-3",
     image: "/mina3.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=1600&q=85",
     message: "نسأل الله القبول والرضا",
     style: {
       shell:
@@ -63,6 +72,8 @@ export const arafahCards: HajjCardDef[] = [
   {
     id: "arafah-1",
     image: "/arafah1.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=1600&q=85",
     message: "خير الدعاء دعاء يوم عرفة",
     style: {
       shell:
@@ -77,6 +88,8 @@ export const arafahCards: HajjCardDef[] = [
   {
     id: "arafah-2",
     image: "/arafah2.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&w=1600&q=85",
     message: "اللهم اغفر لنا وارحمنا",
     style: {
       shell:
@@ -91,6 +104,8 @@ export const arafahCards: HajjCardDef[] = [
   {
     id: "arafah-3",
     image: "/arafah3.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1600&q=85",
     message: "اللهم اعتق رقابنا من النار",
     style: {
       shell:
@@ -108,6 +123,8 @@ export const muzdalifahCards: HajjCardDef[] = [
   {
     id: "muz-1",
     image: "/muzdalifah1.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1419248132236-4bdb8bccd9c2?auto=format&fit=crop&w=1600&q=85",
     message: "ذكر الله يطمئن القلوب",
     style: {
       shell:
@@ -122,6 +139,8 @@ export const muzdalifahCards: HajjCardDef[] = [
   {
     id: "muz-2",
     image: "/muzdalifah2.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1446945463659-6c1f59664b31?auto=format&fit=crop&w=1600&q=85",
     message: "اللهم اكتب لنا السكينة",
     style: {
       shell:
@@ -136,6 +155,8 @@ export const muzdalifahCards: HajjCardDef[] = [
   {
     id: "muz-3",
     image: "/muzdalifah3.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1495616811223-4d98c6a9c6a8?auto=format&fit=crop&w=1600&q=85",
     message: "اللهم اجعلها ليلة خير",
     style: {
       shell:
@@ -153,6 +174,8 @@ export const eidCards: HajjCardDef[] = [
   {
     id: "eid-1",
     image: "/eid1.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1600&q=85",
     message: "عيدكم مبارك",
     style: {
       shell:
@@ -167,6 +190,8 @@ export const eidCards: HajjCardDef[] = [
   {
     id: "eid-2",
     image: "/eid2.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1530103862676-de3c9de1e980?auto=format&fit=crop&w=1600&q=85",
     message: "تقبل الله منا ومنكم",
     style: {
       shell:
@@ -181,6 +206,8 @@ export const eidCards: HajjCardDef[] = [
   {
     id: "eid-3",
     image: "/eid3.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1600&q=85",
     message: "كل عام وأنتم بخير",
     style: {
       shell:
@@ -195,6 +222,8 @@ export const eidCards: HajjCardDef[] = [
   {
     id: "eid-4",
     image: "/eid4.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1464207687129-a30d636d5968?auto=format&fit=crop&w=1600&q=85",
     message: "عيد سعيد",
     style: {
       shell:
@@ -209,6 +238,8 @@ export const eidCards: HajjCardDef[] = [
   {
     id: "eid-5",
     image: "/eid5.jpg",
+    placeholderImage:
+      "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1600&q=85",
     message: "مبارك عليكم العيد",
     style: {
       shell:

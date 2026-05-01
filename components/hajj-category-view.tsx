@@ -3,7 +3,7 @@
 import html2canvas from "html2canvas";
 import { Download, Home, Share2 } from "lucide-react";
 import Link from "next/link";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { HajjCardDef } from "@/lib/hajj-cards-data";
 
@@ -25,11 +25,41 @@ function CardFace({
   captureRef?: React.RefObject<HTMLDivElement | null>;
   isThumbnail?: boolean;
 }) {
+  const [bgUrl, setBgUrl] = useState(card.placeholderImage);
+
+  useEffect(() => {
+    let cancelled = false;
+    const primary = card.image;
+    const fallback = card.placeholderImage;
+
+    if (primary.startsWith("http://") || primary.startsWith("https://")) {
+      setBgUrl(primary);
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    setBgUrl(fallback);
+
+    const img = new Image();
+    img.onload = () => {
+      if (!cancelled) setBgUrl(primary);
+    };
+    img.onerror = () => {
+      if (!cancelled) setBgUrl(fallback);
+    };
+    img.src = primary;
+
+    return () => {
+      cancelled = true;
+    };
+  }, [card.image, card.placeholderImage]);
+
   return (
     <div
       ref={captureRef}
-      className={`relative aspect-[4/5] w-full overflow-hidden rounded-[20px] bg-[#d6d3cd] bg-cover bg-center ${card.style.shell} ${className ?? ""}`}
-      style={{ backgroundImage: `url('${card.image}')` }}
+      className={`relative aspect-[4/5] w-full overflow-hidden rounded-[20px] bg-[#2a2520] bg-cover bg-center ${card.style.shell} ${className ?? ""}`}
+      style={{ backgroundImage: `url('${bgUrl}')` }}
     >
       <div
         className={`pointer-events-none absolute inset-0 ${card.style.overlay}`}
