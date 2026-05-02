@@ -1,0 +1,22 @@
+/*
+ * Load after globals.css (see layout.tsx) so these rules follow Tailwind and
+ * replace `--tw-gradient-position: … in oklab` for html2canvas.
+ */
+.bg-gradient-to-b {
+  --tw-gradient-position: to bottom !important;
+}
+.bg-gradient-to-br {
+  --tw-gradient-position: to bottom right !important;
+}
+.bg-gradient-to-t {
+  --tw-gradient-position: to top !important;
+}
+.bg-gradient-to-tr {
+  --tw-gradient-position: to top right !important;
+}
+
+/* Override Tailwind @supports placeholder oklab for html2canvas stylesheet parsing. */
+input::placeholder,
+textarea::placeholder {
+  color: rgb(148, 163, 184) !important;
+}

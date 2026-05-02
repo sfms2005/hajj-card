@@ -89,7 +89,11 @@ export default function MuzdalifahPage() {
   return (
     <StationPageShell
       title="بطاقات مزدلفة"
-      bgClassName="bg-gradient-to-b from-[#0c1220] via-[#111827] to-[#0f172a]"
+      bgClassName=""
+      shellStyle={{
+        background:
+          "linear-gradient(to bottom, #0c1220 0%, #111827 50%, #0f172a 100%)",
+      }}
       variant="dark"
     >
       <PremiumCardGrid
@@ -103,7 +107,7 @@ export default function MuzdalifahPage() {
       </label>
       <input
         id="muz-name"
-        className="w-full max-w-[300px] rounded-2xl border border-white/15 bg-white/95 px-4 py-3.5 text-right text-base text-[#1e293b] shadow-[0_8px_32px_-12px_rgba(0,0,0,0.5)] outline-none ring-[#c9a227]/25 placeholder:text-[#64748b] focus:border-[#c9a227]/55 focus:ring-2"
+        className="w-full max-w-[300px] rounded-2xl border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.95)] px-4 py-3.5 text-right text-base text-[#1e293b] shadow-[0_8px_32px_-12px_rgba(0,0,0,0.5)] outline-none ring-2 ring-[rgba(201,162,39,0.25)] placeholder:text-[#64748b] focus:border-[rgba(201,162,39,0.55)] focus:ring-[rgba(201,162,39,0.35)]"
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="اكتب اسمك"

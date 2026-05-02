@@ -84,7 +84,7 @@ export default function MinaPage() {
       </label>
       <input
         id="mina-name"
-        className="w-full max-w-[300px] rounded-2xl border border-[#e8e4dc] bg-white px-4 py-3.5 text-right text-base text-[#1e293b] shadow-[0_2px_20px_-8px_rgba(30,58,95,0.08)] outline-none ring-[#c9a227]/20 placeholder:text-[#94a3b8] focus:border-[#c9a227]/50 focus:ring-2"
+        className="w-full max-w-[300px] rounded-2xl border border-[#e8e4dc] bg-white px-4 py-3.5 text-right text-base text-[#1e293b] shadow-[0_2px_20px_-8px_rgba(30,58,95,0.08)] outline-none ring-2 ring-[rgba(201,162,39,0.2)] placeholder:text-[#94a3b8] focus:border-[rgba(201,162,39,0.5)] focus:ring-[rgba(201,162,39,0.35)]"
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="اكتب اسمك"

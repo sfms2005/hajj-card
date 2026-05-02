@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
 import "./globals.css";
+import "./html2canvas-overrides.css";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -24,7 +25,11 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased`}>
       <body
-        className={`${cairo.className} min-h-full bg-gradient-to-br from-[#f7f4ec] via-[#eef6f1] to-[#e6ebf4] text-[#152a45]`}
+        className={`${cairo.className} min-h-full antialiased text-[#152a45]`}
+        style={{
+          backgroundImage:
+            "linear-gradient(to bottom right, #f7f4ec 0%, #eef6f1 50%, #e6ebf4 100%)",
+        }}
       >
         {children}
       </body>

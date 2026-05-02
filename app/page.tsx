@@ -34,22 +34,27 @@ export default function Home() {
   return (
     <main
       dir="rtl"
-      className="relative min-h-dvh bg-[#f6f4ef] text-[#152a45] selection:bg-[#c9a227]/25"
-  >
+      className="selection-gold relative min-h-dvh bg-[#f6f4ef] text-[#152a45]"
+    >
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[#e8e4dc]/95 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-48"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(232, 228, 220, 0.95) 0%, transparent 100%)",
+        }}
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#eae6de]/40 to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-40"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(234, 230, 222, 0.4) 0%, transparent 100%)",
+        }}
         aria-hidden
       />
 
       <div className="relative mx-auto flex min-h-dvh max-w-md flex-col px-5 pt-12 pb-16 sm:max-w-lg sm:px-6 sm:pt-16 sm:pb-20">
         <header className="animate-home-enter mb-10 text-center sm:mb-12">
-          <p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-[#2d6a4f]/90">
-            بطاقات فاخرة
-          </p>
           <h1 className="text-[1.65rem] font-bold leading-snug tracking-tight text-[#152a45] sm:text-3xl">
             بطاقات الحج والعيد
           </h1>
@@ -66,11 +71,11 @@ export default function Home() {
             <Link
               key={href}
               href={href}
-              className="animate-home-enter group relative flex items-start gap-5 overflow-hidden rounded-[1.35rem] border border-[#1e3a5f]/[0.07] bg-white/85 px-5 py-5 shadow-[0_4px_24px_-4px_rgba(30,58,95,0.12)] backdrop-blur-sm transition duration-300 ease-out hover:-translate-y-0.5 hover:border-[#c9a227]/25 hover:bg-white hover:shadow-[0_16px_40px_-12px_rgba(30,58,95,0.18)] active:scale-[0.99] sm:rounded-[1.5rem] sm:px-6 sm:py-6"
+              className="animate-home-enter group relative flex items-start gap-5 overflow-hidden rounded-[1.35rem] border border-[rgba(30,58,95,0.07)] bg-[rgba(255,255,255,0.85)] px-5 py-5 shadow-[0_4px_24px_-4px_rgba(30,58,95,0.12)] backdrop-blur-sm transition duration-300 ease-out hover:-translate-y-0.5 hover:border-[rgba(201,162,39,0.25)] hover:bg-[#ffffff] hover:shadow-[0_16px_40px_-12px_rgba(30,58,95,0.18)] active:scale-[0.99] sm:rounded-[1.5rem] sm:px-6 sm:py-6"
               style={{ animationDelay: `${100 + index * 70}ms` }}
             >
               <span
-                className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[#f0eeea] text-[#1e3a5f]/85 transition duration-300 group-hover:bg-[#e8f2ed] group-hover:text-[#1a4d3a]"
+                className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[#f0eeea] text-[rgba(30,58,95,0.85)] transition duration-300 group-hover:bg-[#e8f2ed] group-hover:text-[#1a4d3a]"
                 aria-hidden
               >
                 <Icon className="size-[22px]" strokeWidth={1.65} />
@@ -86,10 +91,10 @@ export default function Home() {
               </span>
 
               <span
-                className="pointer-events-none absolute end-5 top-1/2 hidden h-9 w-9 -translate-y-1/2 rounded-full border border-[#1e3a5f]/8 bg-[#faf9f7] opacity-0 shadow-sm transition duration-300 group-hover:opacity-100 sm:flex sm:items-center sm:justify-center"
+                className="pointer-events-none absolute end-5 top-1/2 hidden h-9 w-9 -translate-y-1/2 rounded-full border border-[rgba(30,58,95,0.08)] bg-[#faf9f7] opacity-0 shadow-sm transition duration-300 group-hover:opacity-100 sm:flex sm:items-center sm:justify-center"
                 aria-hidden
               >
-                <ChevronLeft className="size-4 text-[#1e3a5f]/45" strokeWidth={2} />
+                <ChevronLeft className="size-4 text-[rgba(30,58,95,0.45)]" strokeWidth={2} />
               </span>
             </Link>
           ))}
@@ -99,7 +104,7 @@ export default function Home() {
           className="mt-auto animate-home-enter pt-12 text-center text-xs text-[#9ca3af]"
           style={{ animationDelay: "480ms" }}
         >
-          تصميم هادئ يليق بمناسك الحج والعيد
+          صُنع بحب ❤️ — ساره السبيعي
         </p>
       </div>
     </main>

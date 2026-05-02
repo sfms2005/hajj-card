@@ -6,6 +6,7 @@ import {
   cardTemplateThemeIds,
   getCardTemplateTheme,
 } from "@/lib/card-template-themes";
+import { mixHex, rgbaFromHex } from "@/lib/html2canvas-colors";
 
 export type IslamicCardTemplateProps = {
   title: string;
@@ -88,7 +89,7 @@ function OrnamentDivider({ color }: { color: string }) {
         className="mx-2.5 size-[7px] shrink-0 rotate-45 border-[1.5px] border-solid sm:mx-3 sm:size-2"
         style={{
           borderColor: color,
-          backgroundColor: `color-mix(in srgb, ${color} 14%, white)`,
+          backgroundColor: mixHex(color, "#ffffff", 0.14),
         }}
         aria-hidden
       />
@@ -139,8 +140,8 @@ function DecoTextFrame({
     <div
       className="relative rounded-xl border border-solid px-3.5 py-4 sm:rounded-2xl sm:px-4 sm:py-5"
       style={{
-        borderColor: `color-mix(in srgb, ${accent} 30%, transparent)`,
-        backgroundColor: `color-mix(in srgb, white 72%, ${accent} 4%)`,
+        borderColor: rgbaFromHex(accent, 0.3),
+        backgroundColor: mixHex("#ffffff", accent, 72 / 76),
       }}
     >
       <CornerAccent
@@ -208,7 +209,7 @@ function Pill({
       style={{
         color: textColor,
         backgroundColor: subtleBg,
-        boxShadow: `inset 0 0 0 1px color-mix(in srgb, ${accent} 22%, transparent)`,
+        boxShadow: `inset 0 0 0 1px ${rgbaFromHex(accent, 0.22)}`,
       }}
     >
       {children}
@@ -224,8 +225,8 @@ export const IslamicCardTemplate = forwardRef<
   ref,
 ) {
   const t = getCardTemplateTheme(theme);
-  const badgeBg = `color-mix(in srgb, ${t.accent} 18%, ${t.surface})`;
-  const namePillBg = `color-mix(in srgb, ${t.accent} 12%, ${t.surface})`;
+  const badgeBg = mixHex(t.accent, t.surface, 0.18);
+  const namePillBg = mixHex(t.accent, t.surface, 0.12);
 
   return (
     <div
@@ -325,9 +326,9 @@ export function CardThemeSelector({
               background: t.gradient,
               borderColor: selected
                 ? t.accent
-                : `color-mix(in srgb, ${t.accent} 22%, white)`,
+                : mixHex(t.accent, "#ffffff", 0.22),
               boxShadow: selected
-                ? `0 0 0 2px color-mix(in srgb, ${t.accent} 30%, white), 0 6px 16px -6px rgba(15, 23, 42, 0.12)`
+                ? `0 0 0 2px ${mixHex(t.accent, "#ffffff", 0.3)}, 0 6px 16px -6px rgba(15, 23, 42, 0.12)`
                 : "0 2px 8px rgba(15, 23, 42, 0.08)",
               outlineColor: t.accent,
             }}
