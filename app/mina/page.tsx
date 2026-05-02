@@ -15,8 +15,11 @@ const CARDS: PremiumCardData[] = [
   {
     id: 1,
     image: "/mina1.jpg",
+    backgroundImage: "/mina_card1.svg",
+    backgroundImagePlain: true,
+    hideMessage: true,
     theme: "minaSage",
-    text: "اللهم تقبل منا ومنكم، واجعل حجنا مبرورًا وسعينا مشكورًا وذنبنا مغفورًا.",
+    text: "",
   },
   {
     id: 2,
