@@ -12,6 +12,7 @@ import {
 } from "react";
 
 import type { HajjCardDef } from "@/lib/hajj-cards-data";
+import { arabicTextSurfaceStyle } from "@/lib/arabic-text";
 
 type HajjCategoryViewProps = {
   pageTitle: string;
@@ -33,8 +34,9 @@ const CardFace = forwardRef<
   return (
     <div
       ref={ref}
+      dir="rtl"
       className={`relative aspect-[4/5] w-full overflow-hidden rounded-[20px] ${card.style.shell} ${className ?? ""}`}
-      style={{ backgroundColor: CARD_FALLBACK_BG }}
+      style={{ backgroundColor: CARD_FALLBACK_BG, ...arabicTextSurfaceStyle }}
     >
       <div
         className={`absolute inset-0 z-0 bg-cover bg-center ${card.style.fill}`}
@@ -48,6 +50,8 @@ const CardFace = forwardRef<
         className={`relative z-10 flex h-full flex-col items-center justify-center text-center ${
           isThumbnail ? "px-3 py-5 sm:px-4 sm:py-6" : "px-6 py-10 sm:px-10 sm:py-12"
         }`}
+        dir="rtl"
+        style={arabicTextSurfaceStyle}
       >
         <p
           className={`${card.style.message} ${
@@ -301,7 +305,10 @@ export function HajjCategoryView({
   }
 
   return (
-    <div className="relative min-h-screen pb-16 pt-10 sm:pb-20 sm:pt-14">
+    <div
+      dir="rtl"
+      className="relative min-h-screen pb-16 pt-10 sm:pb-20 sm:pt-14"
+    >
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_0%,rgba(45,106,79,0.08),transparent_45%),radial-gradient(circle_at_90%_20%,rgba(201,162,39,0.12),transparent_40%),radial-gradient(circle_at_50%_100%,rgba(30,58,95,0.1),transparent_45%)]" />
 
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 px-4 sm:px-6">
@@ -378,11 +385,13 @@ export function HajjCategoryView({
             <input
               id="visitor-name"
               type="text"
+              dir="rtl"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="اكتب اسمك"
               autoComplete="name"
-              className="w-full rounded-[20px] border border-[#1e3a5f]/12 bg-[rgba(255,255,255,0.9)] px-5 py-4 text-base text-[#152a45] shadow-sm outline-none backdrop-blur-sm transition placeholder:text-[#1e3a5f]/40 focus:border-[#2d6a4f]/35 focus:ring-2 focus:ring-[#c9a227]/25"
+              style={arabicTextSurfaceStyle}
+              className="w-full rounded-[20px] border border-[#1e3a5f]/12 bg-[rgba(255,255,255,0.9)] px-5 py-4 text-right text-base text-[#152a45] shadow-sm outline-none backdrop-blur-sm transition placeholder:text-[#1e3a5f]/40 focus:border-[#2d6a4f]/35 focus:ring-2 focus:ring-[#c9a227]/25"
             />
 
             <div className="flex flex-col gap-3 sm:flex-row-reverse">

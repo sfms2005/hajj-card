@@ -9,6 +9,7 @@ import {
   PremiumCardPreview,
 } from "@/components/premium-card-kit";
 import { StationPageShell } from "@/components/station-page-shell";
+import { arabicTextSurfaceStyle } from "@/lib/arabic-text";
 
 const CARDS: PremiumCardData[] = [
   {
@@ -111,6 +112,8 @@ export default function EidPage() {
       </label>
       <input
         id="eid-name"
+        dir="rtl"
+        style={arabicTextSurfaceStyle}
         className="w-full max-w-[300px] rounded-2xl border border-[#fed7aa] bg-white px-4 py-3.5 text-right text-base text-[#1e293b] shadow-[0_2px_20px_-8px_rgba(180,83,9,0.12)] outline-none ring-2 ring-[rgba(201,162,39,0.2)] placeholder:text-[#94a3b8] focus:border-[rgba(201,162,39,0.5)] focus:ring-[rgba(201,162,39,0.35)]"
         value={name}
         onChange={(e) => setName(e.target.value)}

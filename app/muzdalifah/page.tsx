@@ -9,6 +9,7 @@ import {
   PremiumCardPreview,
 } from "@/components/premium-card-kit";
 import { StationPageShell } from "@/components/station-page-shell";
+import { arabicTextSurfaceStyle } from "@/lib/arabic-text";
 
 const CARDS: PremiumCardData[] = [
   {
@@ -107,6 +108,8 @@ export default function MuzdalifahPage() {
       </label>
       <input
         id="muz-name"
+        dir="rtl"
+        style={arabicTextSurfaceStyle}
         className="w-full max-w-[300px] rounded-2xl border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.95)] px-4 py-3.5 text-right text-base text-[#1e293b] shadow-[0_8px_32px_-12px_rgba(0,0,0,0.5)] outline-none ring-2 ring-[rgba(201,162,39,0.25)] placeholder:text-[#64748b] focus:border-[rgba(201,162,39,0.55)] focus:ring-[rgba(201,162,39,0.35)]"
         value={name}
         onChange={(e) => setName(e.target.value)}

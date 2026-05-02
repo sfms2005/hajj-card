@@ -7,6 +7,7 @@ import {
   getCardTemplateTheme,
 } from "@/lib/card-template-themes";
 import { mixHex, rgbaFromHex } from "@/lib/html2canvas-colors";
+import { arabicTextSurfaceStyle } from "@/lib/arabic-text";
 
 export type IslamicCardTemplateProps = {
   title: string;
@@ -160,7 +161,11 @@ function DecoTextFrame({
         accent={accent}
         className="absolute -bottom-0.5 -left-0.5 h-5 w-5 scale-[-1] sm:h-6 sm:w-6"
       />
-      <div style={{ color: textColor }} className="text-center [&>p]:m-0">
+      <div
+        dir="rtl"
+        style={{ color: textColor, ...arabicTextSurfaceStyle }}
+        className="text-center [&>p]:m-0"
+      >
         {children}
       </div>
     </div>
@@ -207,6 +212,7 @@ function Pill({
     <span
       className="inline-block max-w-full truncate rounded-full px-4 py-1.5 text-center text-[0.8125rem] font-semibold sm:px-5 sm:py-2 sm:text-sm"
       style={{
+        ...arabicTextSurfaceStyle,
         color: textColor,
         backgroundColor: subtleBg,
         boxShadow: `inset 0 0 0 1px ${rgbaFromHex(accent, 0.22)}`,
@@ -234,6 +240,7 @@ export const IslamicCardTemplate = forwardRef<
       dir="rtl"
       className={`relative aspect-[3/4] w-full max-w-[300px] overflow-hidden rounded-[1.85rem] sm:max-w-[320px] sm:rounded-[2.1rem] ${className}`}
       style={{
+        ...arabicTextSurfaceStyle,
         backgroundColor: t.surface,
         boxShadow: t.shadow,
       }}

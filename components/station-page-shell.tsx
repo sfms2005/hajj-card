@@ -60,8 +60,8 @@ export function StationPageShell({
           <h1
             className={
               isDark
-                ? "text-[1.55rem] font-bold leading-tight tracking-tight text-[#ffffff] sm:text-[1.75rem]"
-                : "text-[1.55rem] font-bold leading-tight tracking-tight text-[#1e3a5f] sm:text-[1.75rem]"
+                ? "text-[1.55rem] font-bold leading-tight text-[#ffffff] sm:text-[1.75rem]"
+                : "text-[1.55rem] font-bold leading-tight text-[#1e3a5f] sm:text-[1.75rem]"
             }
           >
             {title}

@@ -57,7 +57,7 @@ export const minaCards: HajjCardDef[] = [
       overlay:
         "bg-gradient-to-b from-[#1c1917]/75 via-[#022c22]/50 to-[#0c0a09]/88",
       message:
-        "text-center text-sm font-semibold leading-snug tracking-tight text-[#fff8e7] sm:text-base",
+        "text-center text-sm font-semibold leading-snug text-[#fff8e7] sm:text-base",
       name: "mt-5 text-center text-base font-semibold text-[#fde68a]/95 sm:text-lg",
     },
   },
@@ -153,7 +153,7 @@ export const muzdalifahCards: HajjCardDef[] = [
       overlay:
         "bg-gradient-to-b from-[#0b1324]/90 via-[#1b3a2f]/50 to-[#050a08]/92",
       message:
-        "text-center text-sm font-semibold leading-snug tracking-tight text-[#fffbeb] sm:text-base",
+        "text-center text-sm font-semibold leading-snug text-[#fffbeb] sm:text-base",
       name: "mt-4 text-center text-base font-medium text-[#d1fae5]/90 sm:text-lg",
     },
   },

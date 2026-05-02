@@ -55,7 +55,7 @@ export default function Home() {
 
       <div className="relative mx-auto flex min-h-dvh max-w-md flex-col px-5 pt-12 pb-16 sm:max-w-lg sm:px-6 sm:pt-16 sm:pb-20">
         <header className="animate-home-enter mb-10 text-center sm:mb-12">
-          <h1 className="text-[1.65rem] font-bold leading-snug tracking-tight text-[#152a45] sm:text-3xl">
+          <h1 className="text-[1.65rem] font-bold leading-snug text-[#152a45] sm:text-3xl">
             بطاقات الحج والعيد
           </h1>
           <p className="mx-auto mt-4 max-w-[20rem] text-sm leading-relaxed text-[#5c6578] sm:text-[0.9375rem]">
