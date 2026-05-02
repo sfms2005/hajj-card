@@ -15,19 +15,19 @@ const CARDS: PremiumCardData[] = [
   {
     id: 1,
     image: "/arafah1.jpg",
-    theme: "green",
+    theme: "arafahPeace",
     text: "اللهم إنك عفو تحب العفو فاعفُ عنا، واغفر لنا وارحمنا.",
   },
   {
     id: 2,
     image: "/arafah2.jpg",
-    theme: "gold",
+    theme: "arafahRadiance",
     text: "اللهم اعتق رقابنا من النار، واكتبنا من أهل الجنة.",
   },
   {
     id: 3,
     image: "/arafah3.jpg",
-    theme: "blue",
+    theme: "arafahGrace",
     text: "اللهم تقبل دعاءنا واغفر زلاتنا، وحقق لنا ما نتمنى.",
   },
 ];
@@ -43,7 +43,7 @@ export default function ArafahPage() {
     const canvas = await html2canvas(el, {
       scale: 2,
       useCORS: true,
-      backgroundColor: "#0f172a",
+      backgroundColor: "#f2f5f0",
       logging: false,
       allowTaint: false,
     });
@@ -88,7 +88,7 @@ export default function ArafahPage() {
   };
 
   return (
-    <StationPageShell title="بطاقات عرفة" bgClassName="bg-[#faf8f3]">
+    <StationPageShell title="بطاقات عرفة">
       <PremiumCardGrid
         cards={CARDS}
         selectedId={selected.id}

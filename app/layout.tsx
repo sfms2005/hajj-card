@@ -16,12 +16,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className="h-full antialiased">
+    <html lang="ar" dir="rtl" className="min-h-screen antialiased">
       <body
-        className="min-h-full antialiased text-[#152a45]"
+        className="min-h-screen antialiased text-[#152a45]"
         style={{
+          backgroundColor: "#f4f0e4",
           backgroundImage:
-            "linear-gradient(to bottom right, #f7f4ec 0%, #eef6f1 50%, #e6ebf4 100%)",
+            "linear-gradient(165deg, #f5f1e6 0%, #e8f0e0 42%, #f0f6eb 100%)",
+          backgroundAttachment: "fixed",
         }}
       >
         {children}

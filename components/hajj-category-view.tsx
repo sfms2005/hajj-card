@@ -305,12 +305,7 @@ export function HajjCategoryView({
   }
 
   return (
-    <div
-      dir="rtl"
-      className="relative min-h-screen pb-16 pt-10 sm:pb-20 sm:pt-14"
-    >
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_0%,rgba(45,106,79,0.08),transparent_45%),radial-gradient(circle_at_90%_20%,rgba(201,162,39,0.12),transparent_40%),radial-gradient(circle_at_50%_100%,rgba(30,58,95,0.1),transparent_45%)]" />
-
+    <div dir="rtl" className="relative min-h-screen pb-16 pt-10 sm:pb-20 sm:pt-14">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 px-4 sm:px-6">
         <header className="flex flex-col items-center gap-6 text-center">
           <Link

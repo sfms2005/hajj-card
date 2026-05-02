@@ -34,26 +34,9 @@ export default function Home() {
   return (
     <main
       dir="rtl"
-      className="selection-gold relative min-h-dvh bg-[#f6f4ef] text-[#152a45]"
+      className="selection-gold relative min-h-screen text-[#152a45]"
     >
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-48"
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(232, 228, 220, 0.95) 0%, transparent 100%)",
-        }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40"
-        style={{
-          background:
-            "linear-gradient(to top, rgba(234, 230, 222, 0.4) 0%, transparent 100%)",
-        }}
-        aria-hidden
-      />
-
-      <div className="relative mx-auto flex min-h-dvh max-w-md flex-col px-5 pt-12 pb-16 sm:max-w-lg sm:px-6 sm:pt-16 sm:pb-20">
+      <div className="relative mx-auto flex min-h-screen max-w-md flex-col px-5 pt-12 pb-16 sm:max-w-lg sm:px-6 sm:pt-16 sm:pb-20">
         <header className="animate-home-enter mb-10 text-center sm:mb-12">
           <h1 className="text-[1.65rem] font-bold leading-snug text-[#152a45] sm:text-3xl">
             بطاقات الحج والعيد

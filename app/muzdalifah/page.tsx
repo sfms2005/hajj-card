@@ -15,19 +15,19 @@ const CARDS: PremiumCardData[] = [
   {
     id: 1,
     image: "/muzdalifah1.jpg",
-    theme: "green",
+    theme: "muzNightDeep",
     text: "اللهم اكتب لنا السكينة والطمأنينة، واملأ قلوبنا بالإيمان.",
   },
   {
     id: 2,
     image: "/muzdalifah2.jpg",
-    theme: "gold",
+    theme: "muzNightNavy",
     text: "اللهم اجعلها ليلة خير وبركة، واكتب لنا فيها الأجر العظيم.",
   },
   {
     id: 3,
     image: "/muzdalifah3.jpg",
-    theme: "blue",
+    theme: "muzNightSlate",
     text: "اللهم تقبل منا صالح الأعمال، واجعلنا من الذاكرين الشاكرين.",
   },
 ];
@@ -43,7 +43,7 @@ export default function MuzdalifahPage() {
     const canvas = await html2canvas(el, {
       scale: 2,
       useCORS: true,
-      backgroundColor: "#0f172a",
+      backgroundColor: "#faf6f4",
       logging: false,
       allowTaint: false,
     });
@@ -88,15 +88,7 @@ export default function MuzdalifahPage() {
   };
 
   return (
-    <StationPageShell
-      title="بطاقات مزدلفة"
-      bgClassName=""
-      shellStyle={{
-        background:
-          "linear-gradient(to bottom, #0c1220 0%, #111827 50%, #0f172a 100%)",
-      }}
-      variant="dark"
-    >
+    <StationPageShell title="بطاقات مزدلفة">
       <PremiumCardGrid
         cards={CARDS}
         selectedId={selected.id}
@@ -110,7 +102,7 @@ export default function MuzdalifahPage() {
         id="muz-name"
         dir="rtl"
         style={arabicTextSurfaceStyle}
-        className="w-full max-w-[300px] rounded-2xl border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.95)] px-4 py-3.5 text-right text-base text-[#1e293b] shadow-[0_8px_32px_-12px_rgba(0,0,0,0.5)] outline-none ring-2 ring-[rgba(201,162,39,0.25)] placeholder:text-[#64748b] focus:border-[rgba(201,162,39,0.55)] focus:ring-[rgba(201,162,39,0.35)]"
+        className="w-full max-w-[300px] rounded-2xl border border-[#e8e4dc] bg-white px-4 py-3.5 text-right text-base text-[#1e293b] shadow-[0_2px_20px_-8px_rgba(30,58,95,0.08)] outline-none ring-2 ring-[rgba(201,162,39,0.2)] placeholder:text-[#94a3b8] focus:border-[rgba(201,162,39,0.5)] focus:ring-[rgba(201,162,39,0.35)]"
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="اكتب اسمك"

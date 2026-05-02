@@ -40,10 +40,10 @@ export function StationPageShell({
   return (
     <div
       dir="rtl"
-      className={`min-h-dvh ${bgClassName}`.trim()}
+      className={`min-h-screen ${bgClassName}`.trim()}
       style={shellStyle}
     >
-      <div className="mx-auto flex min-h-dvh max-w-md flex-col items-center gap-6 px-4 pb-16 pt-8 sm:max-w-lg sm:gap-7 sm:px-6 sm:pt-10">
+      <div className="mx-auto flex min-h-screen max-w-md flex-col items-center gap-6 px-4 pb-16 pt-8 sm:max-w-lg sm:gap-7 sm:px-6 sm:pt-10">
         <header className="flex w-full flex-col items-center gap-3 text-center">
           <Link
             href="/"

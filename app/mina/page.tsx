@@ -15,19 +15,19 @@ const CARDS: PremiumCardData[] = [
   {
     id: 1,
     image: "/mina1.jpg",
-    theme: "green",
+    theme: "minaSage",
     text: "اللهم تقبل منا ومنكم، واجعل حجنا مبرورًا وسعينا مشكورًا وذنبنا مغفورًا.",
   },
   {
     id: 2,
     image: "/mina2.jpg",
-    theme: "gold",
+    theme: "minaGilded",
     text: "اللهم ارزقنا القبول والرضا، واكتب لنا تمام الأجر وحسن الخاتمة.",
   },
   {
     id: 3,
     image: "/mina3.jpg",
-    theme: "blue",
+    theme: "minaDune",
     text: "اللهم أعنا على ذكرك وشكرك وحسن عبادتك، واجعلنا من المقبولين.",
   },
 ];
@@ -43,7 +43,7 @@ export default function MinaPage() {
     const canvas = await html2canvas(el, {
       scale: 2,
       useCORS: true,
-      backgroundColor: "#0f172a",
+      backgroundColor: "#fff5f5",
       logging: false,
       allowTaint: false,
     });
@@ -73,7 +73,7 @@ export default function MinaPage() {
   };
 
   return (
-    <StationPageShell title="بطاقات منى" bgClassName="bg-[#f7f5f0]">
+    <StationPageShell title="بطاقات منى">
       <PremiumCardGrid
         cards={CARDS}
         selectedId={selected.id}

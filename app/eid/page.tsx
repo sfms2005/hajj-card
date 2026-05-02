@@ -15,31 +15,31 @@ const CARDS: PremiumCardData[] = [
   {
     id: 1,
     image: "/eid1.jpg",
-    theme: "green",
+    theme: "eidPearl",
     text: "عيدكم مبارك، وتقبل الله منا ومنكم صالح الأعمال.",
   },
   {
     id: 2,
     image: "/eid2.jpg",
-    theme: "gold",
+    theme: "eidGrape",
     text: "كل عام وأنتم بخير، أعاده الله عليكم بالصحة والسعادة.",
   },
   {
     id: 3,
     image: "/eid3.jpg",
-    theme: "blue",
+    theme: "eidPink",
     text: "مبارك عليكم العيد، وجعل أيامكم أفراحًا وبركة.",
   },
   {
     id: 4,
     image: "/eid4.jpg",
-    theme: "purple",
+    theme: "eidSky",
     text: "تقبل الله طاعتكم، ورفع قدركم، وجمعنا وإياكم على الخير.",
   },
   {
     id: 5,
     image: "/eid5.jpg",
-    theme: "neutral",
+    theme: "eidTea",
     text: "عيد أضحى سعيد، جعله الله عيد فرح وسرور عليكم.",
   },
 ];
@@ -55,7 +55,7 @@ export default function EidPage() {
     const canvas = await html2canvas(el, {
       scale: 2,
       useCORS: true,
-      backgroundColor: "#0f172a",
+      backgroundColor: "#faf8f5",
       logging: false,
       allowTaint: false,
     });
@@ -100,7 +100,7 @@ export default function EidPage() {
   };
 
   return (
-    <StationPageShell title="بطاقات العيد" bgClassName="bg-[#fff7ed]">
+    <StationPageShell title="بطاقات العيد">
       <PremiumCardGrid
         cards={CARDS}
         selectedId={selected.id}
