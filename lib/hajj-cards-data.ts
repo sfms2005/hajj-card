@@ -1,7 +1,9 @@
 export type CardVisualStyle = {
-  /** outer frame: ring + shadow */
+  /** outer frame: ring + shadow — hex/rgb only */
   shell: string;
-  /** full-bleed gradient overlay */
+  /** bottom layer: full-card gradient (no images; html2canvas-safe) */
+  fill: string;
+  /** top tint for text contrast — hex/rgb only */
   overlay: string;
   message: string;
   name: string;
@@ -9,10 +11,6 @@ export type CardVisualStyle = {
 
 export type HajjCardDef = {
   id: string;
-  /** Prefer `/public` asset; falls back to `placeholderImage` if missing or failed to load */
-  image: string;
-  /** Remote URL used when local `image` is unavailable (unique per card) */
-  placeholderImage: string;
   message: string;
   style: CardVisualStyle;
 };
@@ -20,50 +18,47 @@ export type HajjCardDef = {
 export const minaCards: HajjCardDef[] = [
   {
     id: "mina-1",
-    image: "/mina1.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1600&q=85",
-    message: "اللهم تقبل منا ومنكم",
+    message:
+      "اللهم تقبل منا ومنكم، واجعل حجنا مبرورًا وسعينا مشكورًا وذنبنا مغفورًا.",
     style: {
       shell:
-        "ring-1 ring-emerald-800/25 shadow-[0_20px_50px_-15px_rgba(15,81,50,0.55)]",
+        "ring-1 ring-[#065f46]/25 shadow-[0_20px_50px_-15px_rgba(15,81,50,0.55)]",
+      fill: "bg-gradient-to-br from-[#14532d] via-[#15803d] to-[#052e16]",
       overlay:
-        "bg-gradient-to-b from-emerald-950/88 via-[#143d2f]/55 to-[#061510]/92",
+        "bg-gradient-to-b from-[#022c22]/88 via-[#143d2f]/55 to-[#061510]/92",
       message:
-        "text-center text-lg font-semibold leading-relaxed text-amber-50 drop-shadow-md sm:text-xl",
-      name: "mt-4 text-center text-base font-medium text-emerald-50/95 sm:text-lg",
+        "text-center text-sm font-semibold leading-snug text-[#fffbeb] drop-shadow-md sm:text-base",
+      name: "mt-4 text-center text-base font-medium text-[#ecfdf5]/95 sm:text-lg",
     },
   },
   {
     id: "mina-2",
-    image: "/mina2.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1600&q=85",
-    message: "اللهم اجعلها حجًا مبرورًا",
+    message:
+      "اللهم ارزقنا القبول والرضا، واكتب لنا تمام الأجر وحسن الخاتمة.",
     style: {
       shell:
         "ring-1 ring-[#1e3a5f]/30 shadow-[0_18px_45px_-14px_rgba(30,58,95,0.5)]",
+      fill: "bg-gradient-to-tr from-[#0c4a6e] via-[#134e4a] to-[#0f172a]",
       overlay:
-        "bg-gradient-to-tr from-[#0f2744]/90 via-emerald-900/40 to-[#0a1f33]/88",
+        "bg-gradient-to-tr from-[#0f2744]/90 via-[#064e3b]/40 to-[#0a1f33]/88",
       message:
-        "text-center text-base font-semibold leading-relaxed text-[#fdf6e3] sm:text-xl",
-      name: "mt-4 text-center text-sm font-medium text-amber-100/90 sm:text-lg",
+        "text-center text-sm font-semibold leading-snug text-[#fdf6e3] sm:text-base",
+      name: "mt-4 text-center text-sm font-medium text-[#fef3c7]/90 sm:text-lg",
     },
   },
   {
     id: "mina-3",
-    image: "/mina3.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=1600&q=85",
-    message: "نسأل الله القبول والرضا",
+    message:
+      "اللهم أعنا على ذكرك وشكرك وحسن عبادتك، واجعلنا من المقبولين.",
     style: {
       shell:
-        "ring-1 ring-amber-300/40 shadow-[0_22px_48px_-16px_rgba(201,162,39,0.35)]",
+        "ring-1 ring-[#fcd34d]/40 shadow-[0_22px_48px_-16px_rgba(201,162,39,0.35)]",
+      fill: "bg-gradient-to-b from-[#57534e] via-[#1c4538] to-[#1c1917]",
       overlay:
-        "bg-gradient-to-b from-stone-900/75 via-emerald-950/50 to-stone-950/88",
+        "bg-gradient-to-b from-[#1c1917]/75 via-[#022c22]/50 to-[#0c0a09]/88",
       message:
-        "text-center text-lg font-semibold leading-relaxed tracking-tight text-[#fff8e7] sm:text-2xl",
-      name: "mt-5 text-center text-base font-semibold text-amber-200/95 sm:text-lg",
+        "text-center text-sm font-semibold leading-snug tracking-tight text-[#fff8e7] sm:text-base",
+      name: "mt-5 text-center text-base font-semibold text-[#fde68a]/95 sm:text-lg",
     },
   },
 ];
@@ -71,50 +66,47 @@ export const minaCards: HajjCardDef[] = [
 export const arafahCards: HajjCardDef[] = [
   {
     id: "arafah-1",
-    image: "/arafah1.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=1600&q=85",
-    message: "خير الدعاء دعاء يوم عرفة",
+    message:
+      "اللهم إنك عفو تحب العفو فاعفُ عنا، واغفر لنا وارحمنا.",
     style: {
       shell:
         "ring-1 ring-[#c9a227]/35 shadow-[0_20px_52px_-12px_rgba(30,58,95,0.45)]",
+      fill: "bg-gradient-to-b from-[#1d4ed8] via-[#2d6a4f] to-[#0f172a]",
       overlay:
         "bg-gradient-to-b from-[#1a2f4d]/92 via-[#2d6a4f]/35 to-[#0c1524]/93",
       message:
-        "text-center text-lg font-bold leading-relaxed text-amber-100 sm:text-2xl",
-      name: "mt-4 text-center text-base font-medium text-emerald-50 sm:text-lg",
+        "text-center text-sm font-semibold leading-snug text-[#fef3c7] sm:text-base",
+      name: "mt-4 text-center text-base font-medium text-[#ecfdf5] sm:text-lg",
     },
   },
   {
     id: "arafah-2",
-    image: "/arafah2.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&w=1600&q=85",
-    message: "اللهم اغفر لنا وارحمنا",
+    message:
+      "اللهم اعتق رقابنا من النار، واكتبنا من أهل الجنة.",
     style: {
       shell:
-        "ring-1 ring-white/20 shadow-[0_16px_40px_-10px_rgba(15,61,46,0.5)]",
+        "ring-1 ring-[rgba(255,255,255,0.2)] shadow-[0_16px_40px_-10px_rgba(15,61,46,0.5)]",
+      fill: "bg-gradient-to-t from-[#78350f] via-[#3f6212] to-[#134e4a]",
       overlay:
-        "bg-gradient-to-t from-emerald-950/90 via-[#1b4332]/60 to-transparent",
+        "bg-gradient-to-t from-[#022c22]/90 via-[#1b4332]/60 to-[rgba(255,255,255,0)]",
       message:
-        "text-center text-base font-semibold leading-relaxed text-stone-50 sm:text-xl",
-      name: "mt-5 text-center text-sm font-semibold text-amber-200/95 sm:text-base",
+        "text-center text-sm font-semibold leading-snug text-[#fafaf9] sm:text-base",
+      name: "mt-5 text-center text-sm font-semibold text-[#fde68a]/95 sm:text-base",
     },
   },
   {
     id: "arafah-3",
-    image: "/arafah3.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1600&q=85",
-    message: "اللهم اعتق رقابنا من النار",
+    message:
+      "اللهم تقبل دعاءنا واغفر زلاتنا، وحقق لنا ما نتمنى.",
     style: {
       shell:
-        "ring-1 ring-emerald-700/30 shadow-[0_24px_55px_-18px_rgba(8,42,32,0.55)]",
+        "ring-1 ring-[#047857]/30 shadow-[0_24px_55px_-18px_rgba(8,42,32,0.55)]",
+      fill: "bg-gradient-to-br from-[#3730a3] via-[#0f766e] to-[#292524]",
       overlay:
-        "bg-gradient-to-br from-[#0d1b2a]/88 via-emerald-900/55 to-[#100f0a]/90",
+        "bg-gradient-to-br from-[#0d1b2a]/88 via-[#064e3b]/55 to-[#100f0a]/90",
       message:
-        "text-center text-lg font-semibold leading-relaxed text-[#fefae0] sm:text-xl",
-      name: "mt-4 text-center text-base font-medium text-stone-200 sm:text-lg",
+        "text-center text-sm font-semibold leading-snug text-[#fefae0] sm:text-base",
+      name: "mt-4 text-center text-base font-medium text-[#e7e5e4] sm:text-lg",
     },
   },
 ];
@@ -122,50 +114,47 @@ export const arafahCards: HajjCardDef[] = [
 export const muzdalifahCards: HajjCardDef[] = [
   {
     id: "muz-1",
-    image: "/muzdalifah1.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1419248132236-4bdb8bccd9c2?auto=format&fit=crop&w=1600&q=85",
-    message: "ذكر الله يطمئن القلوب",
+    message:
+      "اللهم اكتب لنا السكينة والطمأنينة، واملأ قلوبنا بالإيمان.",
     style: {
       shell:
         "ring-1 ring-[#1e3a5f]/25 shadow-[0_18px_46px_-14px_rgba(24,44,72,0.48)]",
+      fill: "bg-gradient-to-b from-[#312e81] via-[#166534] to-[#0c0a09]",
       overlay:
-        "bg-gradient-to-b from-indigo-950/80 via-emerald-900/45 to-stone-950/90",
+        "bg-gradient-to-b from-[#1e1b4b]/80 via-[#064e3b]/45 to-[#0c0a09]/90",
       message:
-        "text-center text-lg font-semibold leading-relaxed text-amber-50 sm:text-2xl",
-      name: "mt-4 text-center text-base font-medium text-emerald-100 sm:text-lg",
+        "text-center text-sm font-semibold leading-snug text-[#fffbeb] sm:text-base",
+      name: "mt-4 text-center text-base font-medium text-[#d1fae5] sm:text-lg",
     },
   },
   {
     id: "muz-2",
-    image: "/muzdalifah2.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1446945463659-6c1f59664b31?auto=format&fit=crop&w=1600&q=85",
-    message: "اللهم اكتب لنا السكينة",
+    message:
+      "اللهم اجعلها ليلة خير وبركة، واكتب لنا فيها الأجر العظيم.",
     style: {
       shell:
-        "ring-1 ring-amber-200/50 shadow-[0_20px_50px_-15px_rgba(45,106,79,0.42)]",
+        "ring-1 ring-[#fde68a]/50 shadow-[0_20px_50px_-15px_rgba(45,106,79,0.42)]",
+      fill: "bg-gradient-to-t from-[#064e3b] via-[#134e4a] to-[#44403c]",
       overlay:
-        "bg-gradient-to-t from-[#041f17]/92 via-[#132f28]/55 to-stone-900/25",
+        "bg-gradient-to-t from-[#041f17]/92 via-[#132f28]/55 to-[#1c1917]/25",
       message:
-        "text-center text-base font-semibold leading-relaxed text-stone-100 sm:text-xl",
-      name: "mt-5 text-center text-sm font-semibold text-amber-100 sm:text-lg",
+        "text-center text-sm font-semibold leading-snug text-[#f5f5f4] sm:text-base",
+      name: "mt-5 text-center text-sm font-semibold text-[#fef3c7] sm:text-lg",
     },
   },
   {
     id: "muz-3",
-    image: "/muzdalifah3.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1495616811223-4d98c6a9c6a8?auto=format&fit=crop&w=1600&q=85",
-    message: "اللهم اجعلها ليلة خير",
+    message:
+      "اللهم تقبل منا صالح الأعمال، واجعلنا من الذاكرين الشاكرين.",
     style: {
       shell:
         "ring-1 ring-[#2d6a4f]/35 shadow-[0_22px_56px_-16px_rgba(12,25,40,0.5)]",
+      fill: "bg-gradient-to-b from-[#172554] via-[#1e293b] to-[#020617]",
       overlay:
         "bg-gradient-to-b from-[#0b1324]/90 via-[#1b3a2f]/50 to-[#050a08]/92",
       message:
-        "text-center text-lg font-semibold leading-relaxed tracking-tight text-[#fffbeb] sm:text-xl",
-      name: "mt-4 text-center text-base font-medium text-emerald-100/90 sm:text-lg",
+        "text-center text-sm font-semibold leading-snug tracking-tight text-[#fffbeb] sm:text-base",
+      name: "mt-4 text-center text-base font-medium text-[#d1fae5]/90 sm:text-lg",
     },
   },
 ];
@@ -173,82 +162,77 @@ export const muzdalifahCards: HajjCardDef[] = [
 export const eidCards: HajjCardDef[] = [
   {
     id: "eid-1",
-    image: "/eid1.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1600&q=85",
-    message: "عيدكم مبارك",
+    message:
+      "عيدكم مبارك، وتقبل الله منا ومنكم صالح الأعمال.",
     style: {
       shell:
         "ring-1 ring-[#c9a227]/45 shadow-[0_22px_55px_-14px_rgba(201,162,39,0.4)]",
+      fill: "bg-gradient-to-br from-[#1e3a5f] via-[#b45309] to-[#14532d]",
       overlay:
-        "bg-gradient-to-br from-[#1e3a5f]/85 via-emerald-800/40 to-stone-900/88",
+        "bg-gradient-to-br from-[#1e3a5f]/85 via-[#065f46]/40 to-[#1c1917]/88",
       message:
-        "text-center text-2xl font-bold leading-snug text-amber-100 sm:text-3xl",
-      name: "mt-5 text-center text-base font-semibold text-emerald-50 sm:text-xl",
+        "text-center text-base font-bold leading-snug text-[#fef3c7] sm:text-lg",
+      name: "mt-5 text-center text-base font-semibold text-[#ecfdf5] sm:text-xl",
     },
   },
   {
     id: "eid-2",
-    image: "/eid2.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1530103862676-de3c9de1e980?auto=format&fit=crop&w=1600&q=85",
-    message: "تقبل الله منا ومنكم",
+    message:
+      "كل عام وأنتم بخير، أعاده الله عليكم بالصحة والسعادة.",
     style: {
       shell:
-        "ring-1 ring-emerald-600/25 shadow-[0_18px_44px_-12px_rgba(45,106,79,0.45)]",
+        "ring-1 ring-[#059669]/25 shadow-[0_18px_44px_-12px_rgba(45,106,79,0.45)]",
+      fill: "bg-gradient-to-b from-[#92400e] via-[#57534e] to-[#292524]",
       overlay:
-        "bg-gradient-to-b from-stone-900/78 via-[#2c1810]/45 to-[#1a120f]/90",
+        "bg-gradient-to-b from-[#1c1917]/78 via-[#2c1810]/45 to-[#1a120f]/90",
       message:
-        "text-center text-lg font-semibold leading-relaxed text-amber-50 sm:text-2xl",
-      name: "mt-4 text-center text-base font-medium text-stone-100 sm:text-lg",
+        "text-center text-sm font-semibold leading-snug text-[#fffbeb] sm:text-base",
+      name: "mt-4 text-center text-base font-medium text-[#f5f5f4] sm:text-lg",
     },
   },
   {
     id: "eid-3",
-    image: "/eid3.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1600&q=85",
-    message: "كل عام وأنتم بخير",
+    message:
+      "مبارك عليكم العيد، وجعل أيامكم أفراحًا وبركة.",
     style: {
       shell:
-        "ring-1 ring-white/25 shadow-[0_20px_48px_-14px_rgba(30,58,95,0.4)]",
+        "ring-1 ring-[rgba(255,255,255,0.25)] shadow-[0_20px_48px_-14px_rgba(30,58,95,0.4)]",
+      fill: "bg-gradient-to-t from-[#14532d] via-[#15803d] to-[#0f172a]",
       overlay:
-        "bg-gradient-to-t from-[#0f172a]/88 via-[#14532d]/50 to-emerald-950/30",
+        "bg-gradient-to-t from-[#0f172a]/88 via-[#14532d]/50 to-[#022c22]/30",
       message:
-        "text-center text-xl font-bold leading-relaxed text-[#fffbeb] sm:text-2xl",
-      name: "mt-4 text-center text-sm font-medium text-amber-100 sm:text-lg",
+        "text-center text-sm font-semibold leading-snug text-[#fffbeb] sm:text-base",
+      name: "mt-4 text-center text-sm font-medium text-[#fef3c7] sm:text-lg",
     },
   },
   {
     id: "eid-4",
-    image: "/eid4.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1464207687129-a30d636d5968?auto=format&fit=crop&w=1600&q=85",
-    message: "عيد سعيد",
+    message:
+      "تقبل الله طاعتكم، ورفع قدركم، وجمعنا وإياكم على الخير.",
     style: {
       shell:
         "ring-1 ring-[#1e3a5f]/35 shadow-[0_24px_58px_-16px_rgba(201,162,39,0.35)]",
+      fill: "bg-gradient-to-b from-[#047857] via-[#1e40af] to-[#020617]",
       overlay:
-        "bg-gradient-to-b from-emerald-950/82 via-[#1e3a5f]/48 to-[#0f172a]/90",
+        "bg-gradient-to-b from-[#022c22]/82 via-[#1e3a5f]/48 to-[#0f172a]/90",
       message:
-        "text-center text-2xl font-semibold leading-tight text-amber-200 sm:text-3xl",
-      name: "mt-5 text-center text-base font-semibold text-emerald-50 sm:text-lg",
+        "text-center text-sm font-semibold leading-snug text-[#fde68a] sm:text-base",
+      name: "mt-5 text-center text-base font-semibold text-[#ecfdf5] sm:text-lg",
     },
   },
   {
     id: "eid-5",
-    image: "/eid5.jpg",
-    placeholderImage:
-      "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1600&q=85",
-    message: "مبارك عليكم العيد",
+    message:
+      "عيد أضحى سعيد، جعله الله عيد فرح وسرور عليكم.",
     style: {
       shell:
-        "ring-1 ring-amber-400/35 shadow-[0_20px_50px_-15px_rgba(15,81,50,0.48)]",
+        "ring-1 ring-[#fbbf24]/35 shadow-[0_20px_50px_-15px_rgba(15,81,50,0.48)]",
+      fill: "bg-gradient-to-tr from-[#166534] via-[#44403c] to-[#1e3a5f]",
       overlay:
-        "bg-gradient-to-tr from-[#0c1f17]/90 via-stone-900/50 to-[#1e3a5f]/80",
+        "bg-gradient-to-tr from-[#0c1f17]/90 via-[#1c1917]/50 to-[#1e3a5f]/80",
       message:
-        "text-center text-lg font-semibold leading-relaxed text-stone-50 sm:text-xl",
-      name: "mt-4 text-center text-base font-medium text-amber-100 sm:text-xl",
+        "text-center text-sm font-semibold leading-snug text-[#fafaf9] sm:text-base",
+      name: "mt-4 text-center text-base font-medium text-[#fef3c7] sm:text-xl",
     },
   },
 ];

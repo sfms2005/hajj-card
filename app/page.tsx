@@ -1,74 +1,107 @@
-import { Gift, Landmark, Moon, Sun } from "lucide-react";
+"use client";
+
+import { ChevronLeft, Gift, Landmark, Moon, Sun } from "lucide-react";
 import Link from "next/link";
 
 const destinations = [
   {
     href: "/mina",
-    label: "منى",
-    description: "بطاقات أيام التشريق",
-    icon: Landmark,
+    title: "منى",
+    subtitle: "بطاقات أيام التشريق",
+    Icon: Landmark,
   },
   {
     href: "/arafah",
-    label: "عرفة",
-    description: "يوم الدعاء الأعظم",
-    icon: Sun,
+    title: "عرفة",
+    subtitle: "يوم الدعاء الأعظم",
+    Icon: Sun,
   },
   {
     href: "/muzdalifah",
-    label: "مزدلفة",
-    description: "سكينة وليلة خير",
-    icon: Moon,
+    title: "مزدلفة",
+    subtitle: "سكينة وليلة خير",
+    Icon: Moon,
   },
   {
     href: "/eid",
-    label: "العيد",
-    description: "فرحة العيد وبهجته",
-    icon: Gift,
+    title: "العيد",
+    subtitle: "فرحة العيد وبهجته",
+    Icon: Gift,
   },
 ] as const;
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <div className="relative min-h-screen px-4 py-16 sm:px-6 sm:py-24">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(45,106,79,0.14),transparent_55%),radial-gradient(circle_at_90%_60%,rgba(201,162,39,0.15),transparent_45%)]" />
+    <main
+      dir="rtl"
+      className="relative min-h-dvh bg-[#f6f4ef] text-[#152a45] selection:bg-[#c9a227]/25"
+  >
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[#e8e4dc]/95 to-transparent"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#eae6de]/40 to-transparent"
+        aria-hidden
+      />
 
-      <div className="mx-auto flex max-w-lg flex-col items-center gap-14">
-        <header className="flex flex-col items-center gap-4 text-center">
-          <p className="text-xs font-medium tracking-[0.28em] text-[#2d6a4f]">
-            حج مبرور وذنب مغفور
+      <div className="relative mx-auto flex min-h-dvh max-w-md flex-col px-5 pt-12 pb-16 sm:max-w-lg sm:px-6 sm:pt-16 sm:pb-20">
+        <header className="animate-home-enter mb-10 text-center sm:mb-12">
+          <p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-[#2d6a4f]/90">
+            بطاقات فاخرة
           </p>
-          <h1 className="text-3xl font-semibold leading-tight text-[#152a45] sm:text-4xl">
+          <h1 className="text-[1.65rem] font-bold leading-snug tracking-tight text-[#152a45] sm:text-3xl">
             بطاقات الحج والعيد
           </h1>
-          <p className="max-w-sm text-sm leading-relaxed text-[#1e3a5f]/68">
-            اختر الوجهة، ثم الصمّم بطاقتك وشاركها مع أحبابك
+          <p className="mx-auto mt-4 max-w-[20rem] text-sm leading-relaxed text-[#5c6578] sm:text-[0.9375rem]">
+            اختر الوجهة، ثم صمّم بطاقتك وشاركها مع أحبابك
           </p>
         </header>
 
         <nav
-          className="grid w-full gap-4 sm:grid-cols-2"
-          aria-label="تصفح بطاقات المناسك"
+          className="flex flex-col gap-4 sm:gap-5"
+          aria-label="اختيار الوجهة"
         >
-          {destinations.map(({ href, label, description, icon: Icon }) => (
+          {destinations.map(({ href, title, subtitle, Icon }, index) => (
             <Link
               key={href}
               href={href}
-              className="group flex flex-col gap-4 rounded-[20px] border border-[#1e3a5f]/10 bg-white/75 p-6 shadow-[0_16px_40px_-24px_rgba(30,58,95,0.35)] backdrop-blur-sm transition duration-300 ease-out hover:-translate-y-0.5 hover:border-[#c9a227]/40 hover:shadow-[0_22px_48px_-20px_rgba(45,106,79,0.28)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c9a227] focus-visible:ring-offset-2 focus-visible:ring-offset-[#f4f1e8]"
+              className="animate-home-enter group relative flex items-start gap-5 overflow-hidden rounded-[1.35rem] border border-[#1e3a5f]/[0.07] bg-white/85 px-5 py-5 shadow-[0_4px_24px_-4px_rgba(30,58,95,0.12)] backdrop-blur-sm transition duration-300 ease-out hover:-translate-y-0.5 hover:border-[#c9a227]/25 hover:bg-white hover:shadow-[0_16px_40px_-12px_rgba(30,58,95,0.18)] active:scale-[0.99] sm:rounded-[1.5rem] sm:px-6 sm:py-6"
+              style={{ animationDelay: `${100 + index * 70}ms` }}
             >
-              <span className="inline-flex size-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2d6a4f]/12 to-[#1e3a5f]/10 text-[#1e3a5f] transition group-hover:from-[#c9a227]/20 group-hover:to-[#2d6a4f]/15">
-                <Icon className="size-[22px]" strokeWidth={1.75} aria-hidden />
+              <span
+                className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[#f0eeea] text-[#1e3a5f]/85 transition duration-300 group-hover:bg-[#e8f2ed] group-hover:text-[#1a4d3a]"
+                aria-hidden
+              >
+                <Icon className="size-[22px]" strokeWidth={1.65} />
               </span>
-              <span className="flex flex-col gap-1 text-right">
-                <span className="text-lg font-semibold text-[#152a45]">
-                  {label}
+
+              <span className="min-w-0 flex-1 pt-0.5 text-right">
+                <span className="block text-lg font-semibold text-[#152a45] transition group-hover:text-[#1e3a5f] sm:text-xl">
+                  {title}
                 </span>
-                <span className="text-sm text-[#1e3a5f]/60">{description}</span>
+                <span className="mt-1 block text-sm leading-relaxed text-[#6b7280]">
+                  {subtitle}
+                </span>
+              </span>
+
+              <span
+                className="pointer-events-none absolute end-5 top-1/2 hidden h-9 w-9 -translate-y-1/2 rounded-full border border-[#1e3a5f]/8 bg-[#faf9f7] opacity-0 shadow-sm transition duration-300 group-hover:opacity-100 sm:flex sm:items-center sm:justify-center"
+                aria-hidden
+              >
+                <ChevronLeft className="size-4 text-[#1e3a5f]/45" strokeWidth={2} />
               </span>
             </Link>
           ))}
         </nav>
+
+        <p
+          className="mt-auto animate-home-enter pt-12 text-center text-xs text-[#9ca3af]"
+          style={{ animationDelay: "480ms" }}
+        >
+          تصميم هادئ يليق بمناسك الحج والعيد
+        </p>
       </div>
-    </div>
+    </main>
   );
 }

@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+/* html2canvas cannot parse Tailwind v4's `linear-gradient(... in oklab)` position syntax */
+.bg-gradient-to-b {
+  --tw-gradient-position: to bottom;
+}
+.bg-gradient-to-br {
+  --tw-gradient-position: to bottom right;
+}
+.bg-gradient-to-t {
+  --tw-gradient-position: to top;
+}
+.bg-gradient-to-tr {
+  --tw-gradient-position: to top right;
+}
+
 :root {
   --background: #f4f1e8;
   --foreground: #152a45;
@@ -24,6 +38,21 @@
 
 .hajj-preview-animate {
   animation: hajj-preview-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes home-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-home-enter {
+  animation: home-enter 0.58s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 body {

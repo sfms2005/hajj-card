@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   forwardRef,
   useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -19,9 +18,8 @@ type HajjCategoryViewProps = {
   cards: HajjCardDef[];
 };
 
-/** Base gradient behind photo so the card is never visually empty. */
-const CARD_BASE_GRADIENT =
-  "absolute inset-0 z-0 bg-gradient-to-br from-[#1e3a5f] via-[#2d6a4f] to-[#0f172a]";
+/** Solid fallback if gradients fail to paint (html2canvas / export safety) */
+const CARD_FALLBACK_BG = "#1a2f4a";
 
 const CardFace = forwardRef<
   HTMLDivElement,
@@ -32,51 +30,18 @@ const CardFace = forwardRef<
     isThumbnail?: boolean;
   }
 >(function CardFace({ card, name, className, isThumbnail = false }, ref) {
-  const [bgUrl, setBgUrl] = useState(card.placeholderImage);
-
-  useEffect(() => {
-    let cancelled = false;
-    const primary = card.image;
-    const fallback = card.placeholderImage;
-
-    if (primary.startsWith("http://") || primary.startsWith("https://")) {
-      setBgUrl(primary);
-      return () => {
-        cancelled = true;
-      };
-    }
-
-    setBgUrl(fallback);
-
-    const img = new Image();
-    img.onload = () => {
-      if (!cancelled) setBgUrl(primary);
-    };
-    img.onerror = () => {
-      if (!cancelled) setBgUrl(fallback);
-    };
-    img.src = primary;
-
-    return () => {
-      cancelled = true;
-    };
-  }, [card.image, card.placeholderImage]);
-
   return (
     <div
       ref={ref}
-      className={`relative aspect-[4/5] w-full overflow-hidden rounded-[20px] bg-[#1a2f4a] bg-cover bg-center ${card.style.shell} ${className ?? ""}`}
+      className={`relative aspect-[4/5] w-full overflow-hidden rounded-[20px] ${card.style.shell} ${className ?? ""}`}
+      style={{ backgroundColor: CARD_FALLBACK_BG }}
     >
-      <div className={CARD_BASE_GRADIENT} aria-hidden />
-      {bgUrl ? (
-        <div
-          className="absolute inset-0 z-[1] bg-cover bg-center"
-          style={{ backgroundImage: `url('${bgUrl}')` }}
-          aria-hidden
-        />
-      ) : null}
       <div
-        className={`pointer-events-none absolute inset-0 z-[2] ${card.style.overlay}`}
+        className={`absolute inset-0 z-0 bg-cover bg-center ${card.style.fill}`}
+        aria-hidden
+      />
+      <div
+        className={`pointer-events-none absolute inset-0 z-[1] bg-cover bg-center ${card.style.overlay}`}
         aria-hidden
       />
       <div
@@ -87,7 +52,7 @@ const CardFace = forwardRef<
         <p
           className={`${card.style.message} ${
             isThumbnail
-              ? "!text-[0.68rem] !leading-snug sm:!text-xs"
+              ? "!text-[0.56rem] !leading-[1.35] text-balance sm:!text-[0.65rem]"
               : ""
           }`}
         >
@@ -273,11 +238,10 @@ export function HajjCategoryView({
     try {
       const canvas = await html2canvas(node, {
         scale: 2,
-        useCORS: true,
+        useCORS: false,
         allowTaint: false,
         logging: false,
-        backgroundColor: null,
-        imageTimeout: 15_000,
+        backgroundColor: CARD_FALLBACK_BG,
       });
       return canvas;
     } catch (e) {
@@ -344,7 +308,7 @@ export function HajjCategoryView({
         <header className="flex flex-col items-center gap-6 text-center">
           <Link
             href="/"
-            className="group inline-flex items-center gap-2 rounded-full border border-[#1e3a5f]/15 bg-white/70 px-4 py-2 text-sm font-medium text-[#1e3a5f]/85 shadow-sm backdrop-blur-sm transition hover:border-[#c9a227]/45 hover:text-[#1e3a5f]"
+            className="group inline-flex items-center gap-2 rounded-full border border-[#1e3a5f]/15 bg-[rgba(255,255,255,0.7)] px-4 py-2 text-sm font-medium text-[#1e3a5f]/85 shadow-sm backdrop-blur-sm transition hover:border-[#c9a227]/45 hover:text-[#1e3a5f]"
           >
             <Home className="size-[18px] shrink-0 opacity-80" strokeWidth={1.75} />
             <span>الرئيسية</span>
@@ -418,7 +382,7 @@ export function HajjCategoryView({
               onChange={(e) => setName(e.target.value)}
               placeholder="اكتب اسمك"
               autoComplete="name"
-              className="w-full rounded-[20px] border border-[#1e3a5f]/12 bg-white/90 px-5 py-4 text-base text-[#152a45] shadow-sm outline-none backdrop-blur-sm transition placeholder:text-[#1e3a5f]/40 focus:border-[#2d6a4f]/35 focus:ring-2 focus:ring-[#c9a227]/25"
+              className="w-full rounded-[20px] border border-[#1e3a5f]/12 bg-[rgba(255,255,255,0.9)] px-5 py-4 text-base text-[#152a45] shadow-sm outline-none backdrop-blur-sm transition placeholder:text-[#1e3a5f]/40 focus:border-[#2d6a4f]/35 focus:ring-2 focus:ring-[#c9a227]/25"
             />
 
             <div className="flex flex-col gap-3 sm:flex-row-reverse">
@@ -435,7 +399,7 @@ export function HajjCategoryView({
                 type="button"
                 onClick={() => void handleShare()}
                 disabled={pending !== null}
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-[20px] border border-[#1e3a5f]/15 bg-white/95 px-5 py-4 text-sm font-semibold text-[#1e3a5f] shadow-sm transition hover:border-[#c9a227]/45 hover:text-[#152a45] disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-[20px] border border-[#1e3a5f]/15 bg-[rgba(255,255,255,0.95)] px-5 py-4 text-sm font-semibold text-[#1e3a5f] shadow-sm transition hover:border-[#c9a227]/45 hover:text-[#152a45] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <Share2 className="size-5 shrink-0" strokeWidth={1.75} />
                 {pending === "share" ? "جاري المشاركة…" : "مشاركة"}
