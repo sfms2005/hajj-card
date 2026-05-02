@@ -14,12 +14,9 @@ import { arabicTextSurfaceStyle } from "@/lib/arabic-text";
 const CARDS: PremiumCardData[] = [
   {
     id: 1,
-    image: "/mina_card1.pdf",
-    backgroundImage: "/mina_card1.pdf",
-    backgroundImagePlain: true,
-    hideMessage: true,
+    image: "/mina1.jpg",
     theme: "minaSage",
-    text: "",
+    text: "اللهم تقبل منا ومنكم، واجعل حجنا مبرورًا وسعينا مشكورًا وذنبنا مغفورًا.",
   },
   {
     id: 2,

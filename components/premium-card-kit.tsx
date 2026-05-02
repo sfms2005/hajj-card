@@ -13,7 +13,7 @@ export type PremiumCardData = {
   id: number;
   text: string;
   image: string;
-  /** خلفية الصورة أو SVG أو PDF (PDF يُعرض داخل iframe) */
+  /** خلفية الصورة أو الـ SVG؛ طبقة التلوين التلقائية تُلغى بـ `backgroundImagePlain` */
   backgroundImage?: string;
   /** بدون تدرج لوني فوق الخلفية */
   backgroundImagePlain?: boolean;
@@ -32,25 +32,13 @@ function ThemedPhotoBackground({
   themeSurface: string;
   tint: boolean;
 }) {
-  const pathOnly = src.split(/[?#]/)[0] ?? src;
-  const isPdf = pathOnly.toLowerCase().endsWith(".pdf");
-  const pdfSrc = src.includes("#") ? `${src}&toolbar=0` : `${src}#toolbar=0`;
-
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]">
-      {isPdf ? (
-        <iframe
-          title="خلفية البطاقة"
-          src={pdfSrc}
-          className="pointer-events-none absolute inset-0 h-full w-full border-0 bg-white"
-        />
-      ) : (
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${src})` }}
-        />
-      )}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${src})` }}
+      />
       {tint ? (
         <div
           aria-hidden
