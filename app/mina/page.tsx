@@ -14,8 +14,8 @@ import { arabicTextSurfaceStyle } from "@/lib/arabic-text";
 const CARDS: PremiumCardData[] = [
   {
     id: 1,
-    image: "/mina_card1.jpg",
-    backgroundImage: "/mina_card1.jpg",
+    image: "/mina_card1.pdf",
+    backgroundImage: "/mina_card1.pdf",
     backgroundImagePlain: true,
     hideMessage: true,
     theme: "minaSage",
