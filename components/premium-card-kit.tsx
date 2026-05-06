@@ -3,11 +3,60 @@
 import { forwardRef } from "react";
 import {
   getCardTemplateTheme,
+  isArafahSpiritTheme,
+  isMinaStationTheme,
   isMuzdalifahNightTheme,
 } from "@/lib/card-template-themes";
 import type { CardTemplateThemeId } from "@/lib/card-template-themes";
 import { mixHex, rgbaFromHex } from "@/lib/html2canvas-colors";
 import { arabicTextSurfaceStyle } from "@/lib/arabic-text";
+import {
+  StationCardLogos,
+  type StationLogoLayoutTweak,
+} from "@/components/station-card-logos";
+
+/** Islamic template layout — pass only from the Mina page. */
+export type MinaIslamicTemplateOptions = {
+  templateSrc: string;
+};
+
+const MINA_TEMPLATE_FILL = "#f7f5ef";
+const MINA_TEXT_DUA = "#3d5345";
+const MINA_TEXT_NAME = "#5a6d54";
+const MINA_TEXT_NAME_EMPTY = "#8a9a82";
+
+/** تخصيص اختياري لموضع/حجم دعاء القالب الإسلامي (شبكة + معاينة) لكل بطاقة */
+export type MinaIslamicPerCardTextTweak = {
+  /** استبدال كلاسات المسافات العلوية والجانبية المشتركة بعد `flex-col` */
+  contentInsetClassName?: string;
+  /** استبدال كلاس نص الدعاء في المصغّرة */
+  gridDuaClassName?: string;
+  /** استبدال كلاس نص الدعاء في المعاينة الكبيرة */
+  previewDuaClassName?: string;
+};
+
+const MINA_ISLAMIC_CONTENT_INSET_DEFAULT =
+  "items-center justify-start px-[10%] pb-[6%] pt-[79%] text-center sm:px-[11%] sm:pb-[7%] sm:pt-[84%]";
+const MINA_ISLAMIC_GRID_DUA_DEFAULT =
+  "line-clamp-5 max-w-[94%] text-center text-[0.62rem] font-medium leading-[1.78] sm:text-[0.76rem] sm:leading-[1.8]";
+const MINA_ISLAMIC_PREVIEW_DUA_DEFAULT =
+  "max-w-[94%] text-[1.18rem] font-medium leading-[1.78] sm:text-[1.34rem] sm:leading-[1.8]";
+
+const minaArabicStyle = {
+  ...arabicTextSurfaceStyle,
+  fontFamily:
+    '"Traditional Arabic", "Segoe UI", Tahoma, Arial, sans-serif',
+} as const;
+
+function MinaTemplateBackdrop({ src }: { src: string }) {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 rounded-[inherit] bg-contain bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${src})` }}
+    />
+  );
+}
 
 export type PremiumCardData = {
   id: number;
@@ -19,6 +68,12 @@ export type PremiumCardData = {
   backgroundImagePlain?: boolean;
   /** لا يُعرض نص الدعاء داخل البطاقة */
   hideMessage?: boolean;
+  /** خلفية قالب منى الإسلامي؛ إن وُجد يُستخدم بدل `minaIslamicTemplate.templateSrc`. */
+  minaTemplateBackground?: string;
+  /** موضع/حجم دعاء القالب الإسلامي لهذه البطاقة فقط */
+  minaIslamicTextTweak?: MinaIslamicPerCardTextTweak;
+  /** مواضع شعارات السعادة/قاصد لهذه البطاقة فقط */
+  stationLogoTweak?: StationLogoLayoutTweak;
   /** لون/ثيم البطاقة */
   theme: CardTemplateThemeId;
 };
@@ -79,11 +134,72 @@ export function PremiumCardGrid({
   cards,
   selectedId,
   onSelect,
+  minaIslamicTemplate,
 }: {
   cards: PremiumCardData[];
   selectedId: number;
   onSelect: (card: PremiumCardData) => void;
+  minaIslamicTemplate?: MinaIslamicTemplateOptions;
 }) {
+  if (minaIslamicTemplate) {
+    const { templateSrc } = minaIslamicTemplate;
+    return (
+      <div
+        className="flex w-full max-w-md flex-wrap justify-center gap-3 sm:max-w-lg sm:gap-4"
+        dir="rtl"
+      >
+        {cards.map((card) => {
+          const isSel = selectedId === card.id;
+          const t = getCardTemplateTheme(card.theme);
+          const ring = isSel
+            ? `0 0 0 2px ${t.accent}, ${t.shadow}`
+            : `0 0 0 1px ${rgbaFromHex(t.accent, 0.35)}`;
+          const inset =
+            card.minaIslamicTextTweak?.contentInsetClassName ??
+            MINA_ISLAMIC_CONTENT_INSET_DEFAULT;
+          const gridDua =
+            card.minaIslamicTextTweak?.gridDuaClassName ??
+            MINA_ISLAMIC_GRID_DUA_DEFAULT;
+
+          return (
+            <button
+              key={card.id}
+              type="button"
+              dir="rtl"
+              onClick={() => onSelect(card)}
+              className={`relative aspect-[2160/3360] w-[calc(33.333%-0.5rem)] min-w-[4.75rem] max-w-[6.75rem] overflow-hidden rounded-[8px] text-right transition duration-300 ease-out focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c9a227] sm:min-w-[5.5rem] sm:max-w-[7.5rem] sm:rounded-[9px] ${
+                isSel ? "z-10 scale-105" : "opacity-90 hover:opacity-100"
+              }`}
+              style={{
+                backgroundColor: MINA_TEMPLATE_FILL,
+                boxShadow: ring,
+              }}
+            >
+              <MinaTemplateBackdrop
+                src={card.minaTemplateBackground ?? templateSrc}
+              />
+              <span
+                className={`relative z-10 flex h-full min-h-0 flex-col ${inset}`}
+              >
+                <span
+                  dir="rtl"
+                  className={gridDua}
+                  style={{
+                    color: MINA_TEXT_DUA,
+                    ...minaArabicStyle,
+                  }}
+                >
+                  {card.text}
+                </span>
+              </span>
+              <StationCardLogos tweak={card.stationLogoTweak} />
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+
   return (
     <div className="flex w-full max-w-md flex-wrap justify-center gap-3 sm:max-w-lg sm:gap-4" dir="rtl">
       {cards.map((card) => {
@@ -100,7 +216,7 @@ export function PremiumCardGrid({
             dir="rtl"
             aria-label={card.hideMessage ? `بطاقة ${card.id}` : undefined}
             onClick={() => onSelect(card)}
-            className={`relative aspect-[3/4] w-[calc(33.333%-0.5rem)] min-w-[4.75rem] max-w-[6.75rem] overflow-hidden rounded-[22px] text-right transition duration-300 ease-out focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c9a227] sm:min-w-[5.5rem] sm:max-w-[7.5rem] sm:rounded-[24px] ${
+            className={`relative aspect-[2160/3360] w-[calc(33.333%-0.5rem)] min-w-[4.75rem] max-w-[6.75rem] overflow-hidden rounded-[8px] text-right transition duration-300 ease-out focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c9a227] sm:min-w-[5.5rem] sm:max-w-[7.5rem] sm:rounded-[9px] ${
               isSel ? "z-10 scale-105" : "opacity-90 hover:opacity-100"
             }`}
             style={{
@@ -116,10 +232,10 @@ export function PremiumCardGrid({
               />
             ) : null}
             {card.hideMessage ? null : (
-              <span className="relative z-10 flex h-full min-h-0 items-center justify-center p-1.5 sm:p-2.5">
+              <span className="relative z-10 flex h-full min-h-0 flex-col items-center justify-center px-[5%] py-[6%] text-center sm:px-[6%] sm:py-[7%]">
                 <span
                   dir="rtl"
-                  className="text-center text-[0.55rem] font-medium leading-snug tracking-normal sm:text-[0.62rem]"
+                  className="w-full text-center text-[0.53rem] font-medium leading-relaxed tracking-normal sm:text-[0.62rem] sm:leading-snug"
                   style={{
                     color: t.text,
                     ...arabicTextSurfaceStyle,
@@ -129,6 +245,7 @@ export function PremiumCardGrid({
                 </span>
               </span>
             )}
+            <StationCardLogos tweak={card.stationLogoTweak} />
           </button>
         );
       })}
@@ -138,8 +255,78 @@ export function PremiumCardGrid({
 
 export const PremiumCardPreview = forwardRef<
   HTMLDivElement,
-  { card: PremiumCardData; name: string }
->(function PremiumCardPreview({ card, name }, ref) {
+  {
+    card: PremiumCardData;
+    name: string;
+    minaIslamicTemplate?: MinaIslamicTemplateOptions;
+  }
+>(function PremiumCardPreview({ card, name, minaIslamicTemplate }, ref) {
+  if (minaIslamicTemplate) {
+    const { templateSrc } = minaIslamicTemplate;
+    const inset =
+      card.minaIslamicTextTweak?.contentInsetClassName ??
+      MINA_ISLAMIC_CONTENT_INSET_DEFAULT;
+    const previewDua =
+      card.minaIslamicTextTweak?.previewDuaClassName ??
+      MINA_ISLAMIC_PREVIEW_DUA_DEFAULT;
+    const extraNameTopMargin =
+      isMuzdalifahNightTheme(card.theme) ||
+      isMinaStationTheme(card.theme) ||
+      isArafahSpiritTheme(card.theme);
+    const nameMtClass = extraNameTopMargin
+      ? "mt-8 shrink-0 text-[1.1rem] font-semibold sm:mt-9 sm:text-[1.26rem]"
+      : "mt-7 shrink-0 text-[1.1rem] font-semibold sm:mt-8 sm:text-[1.26rem]";
+    const nameEmptyMtClass = extraNameTopMargin
+      ? "mt-8 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-9 sm:text-[1.18rem]"
+      : "mt-7 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-8 sm:text-[1.18rem]";
+    return (
+      <div
+        ref={ref}
+        dir="rtl"
+        className="relative mx-auto flex aspect-[2160/3360] w-full max-w-[320px] flex-col overflow-hidden rounded-[24px] sm:max-w-[360px] sm:rounded-[26px]"
+        style={{
+          backgroundColor: MINA_TEMPLATE_FILL,
+          boxShadow:
+            "0 0 0 1px rgba(82,98,78,0.12), 0 22px 50px -26px rgba(45,55,42,0.16)",
+          ...minaArabicStyle,
+        }}
+      >
+        <MinaTemplateBackdrop
+          src={card.minaTemplateBackground ?? templateSrc}
+        />
+        <div className="relative z-10 flex min-h-0 flex-1 flex-col">
+          <div
+            className={`flex min-h-0 flex-1 flex-col ${inset}`}
+            dir="rtl"
+          >
+            <p
+              className={previewDua}
+              style={{ color: MINA_TEXT_DUA, ...minaArabicStyle }}
+            >
+              {card.text}
+            </p>
+            {name.trim() ? (
+              <p
+                className={nameMtClass}
+                style={{ color: MINA_TEXT_NAME, ...minaArabicStyle }}
+              >
+                {name.trim()}
+              </p>
+            ) : (
+              <p
+                className={nameEmptyMtClass}
+                style={{ color: MINA_TEXT_NAME_EMPTY, ...minaArabicStyle }}
+              >
+                —
+              </p>
+            )}
+          </div>
+        </div>
+        <StationCardLogos tweak={card.stationLogoTweak} />
+      </div>
+    );
+  }
+
   const t = getCardTemplateTheme(card.theme);
   const nColor = nameColor(t, card.theme);
 
@@ -147,7 +334,7 @@ export const PremiumCardPreview = forwardRef<
     <div
       ref={ref}
       dir="rtl"
-      className="relative mx-auto aspect-[3/4] w-full max-w-[300px] overflow-hidden rounded-[24px] sm:max-w-[320px] sm:rounded-[26px]"
+      className="relative mx-auto aspect-[2160/3360] w-full max-w-[320px] overflow-hidden rounded-[24px] sm:max-w-[360px] sm:rounded-[26px]"
       style={{
         ...(card.backgroundImage ? {} : { backgroundColor: t.surface }),
         boxShadow: `0 0 0 1px ${rgbaFromHex(t.accent, 0.28)}, ${t.shadow}`,
@@ -168,7 +355,7 @@ export const PremiumCardPreview = forwardRef<
           style={{ color: t.text, ...arabicTextSurfaceStyle }}
         >
           <p
-            className="w-full text-sm font-medium leading-relaxed tracking-normal sm:text-[0.9rem] sm:leading-snug"
+            className="w-full text-[0.95rem] font-medium leading-relaxed tracking-normal sm:text-[1.02rem] sm:leading-snug"
             style={{
               color: t.text,
               ...arabicTextSurfaceStyle,
@@ -178,7 +365,7 @@ export const PremiumCardPreview = forwardRef<
           </p>
           {name.trim() ? (
             <p
-              className="mt-4 shrink-0 text-base font-semibold tracking-normal sm:mt-5 sm:text-lg"
+              className="mt-10 shrink-0 text-base font-semibold tracking-normal sm:mt-11 sm:text-lg"
               style={{
                 color: nColor,
                 ...arabicTextSurfaceStyle,
@@ -188,7 +375,7 @@ export const PremiumCardPreview = forwardRef<
             </p>
           ) : (
             <p
-              className="mt-4 min-h-[1.5rem] shrink-0 text-sm sm:mt-5 sm:text-base"
+              className="mt-10 min-h-[1.5rem] shrink-0 text-sm sm:mt-11 sm:text-base"
               style={{
                 color: t.mutedText,
                 ...arabicTextSurfaceStyle,
@@ -229,6 +416,7 @@ export const PremiumCardPreview = forwardRef<
           )}
         </div>
       )}
+      <StationCardLogos tweak={card.stationLogoTweak} />
     </div>
   );
 });

@@ -9,40 +9,72 @@ import {
   PremiumCardPreview,
 } from "@/components/premium-card-kit";
 import { StationPageShell } from "@/components/station-page-shell";
+import {
+  getStationCardHtml2canvasScale,
+  normalizeCardExportCanvas,
+} from "@/lib/card-dimensions";
 import { arabicTextSurfaceStyle } from "@/lib/arabic-text";
 
 const CARDS: PremiumCardData[] = [
   {
     id: 1,
     image: "/eid1.jpg",
+    minaTemplateBackground: "/Eid1.png",
     theme: "eidPearl",
     text: "عيدكم مبارك، وتقبل الله منا ومنكم صالح الأعمال.",
   },
   {
     id: 2,
     image: "/eid2.jpg",
+    minaTemplateBackground: "/Eid5.png",
+    minaIslamicTextTweak: {
+      contentInsetClassName:
+        "items-center justify-start px-[10%] pb-[6%] pt-[65%] text-center sm:px-[11%] sm:pb-[7%] sm:pt-[70%]",
+      gridDuaClassName:
+        "line-clamp-5 max-w-[94%] text-center text-[0.76rem] font-medium leading-[1.78] sm:text-[0.92rem] sm:leading-[1.8]",
+      previewDuaClassName:
+        "max-w-[94%] text-[1.36rem] font-medium leading-[1.78] sm:text-[1.54rem] sm:leading-[1.8]",
+    },
     theme: "eidGrape",
     text: "كل عام وأنتم بخير، أعاده الله عليكم بالصحة والسعادة.",
   },
   {
     id: 3,
     image: "/eid3.jpg",
+    minaTemplateBackground: "/Eid3.png",
     theme: "eidPink",
     text: "مبارك عليكم العيد، وجعل أيامكم أفراحًا وبركة.",
   },
   {
     id: 4,
     image: "/eid4.jpg",
+    minaTemplateBackground: "/Eid4.png",
+    minaIslamicTextTweak: {
+      contentInsetClassName:
+        "items-center justify-start px-[10%] pb-[6%] pt-[58%] text-center sm:px-[11%] sm:pb-[7%] sm:pt-[63%]",
+    },
+    stationLogoTweak: {
+      qasedTop: "top-[-4%]",
+      qasedCorner: "right-[3%] sm:right-[4%]",
+      qasedImg:
+        "max-h-[21%] max-w-[60%] sm:max-h-[21.5%] sm:max-w-[60%]",
+      happyTop: "top-[14%]",
+      happyCorner: "right-[2%] sm:right-[3%]",
+    },
     theme: "eidSky",
     text: "تقبل الله طاعتكم، ورفع قدركم، وجمعنا وإياكم على الخير.",
   },
   {
     id: 5,
     image: "/eid5.jpg",
+    minaTemplateBackground: "/purple_card.png",
     theme: "eidTea",
     text: "عيد أضحى سعيد، جعله الله عيد فرح وسرور عليكم.",
   },
 ];
+
+/** نفس قالب منى — الخلفيات من `minaTemplateBackground` لكل بطاقة */
+const EID_ISLAMIC_TEMPLATE = "/mina_c1.png";
 
 export default function EidPage() {
   const [name, setName] = useState("");
@@ -52,13 +84,14 @@ export default function EidPage() {
   const downloadBlob = async (): Promise<Blob | null> => {
     const el = cardRef.current;
     if (!el) return null;
-    const canvas = await html2canvas(el, {
-      scale: 2,
+    const raw = await html2canvas(el, {
+      scale: getStationCardHtml2canvasScale(el),
       useCORS: true,
-      backgroundColor: "#faf8f5",
+      backgroundColor: "#f7f5ef",
       logging: false,
       allowTaint: false,
     });
+    const canvas = normalizeCardExportCanvas(raw);
     return new Promise((resolve) => {
       canvas.toBlob((b) => resolve(b), "image/png");
     });
@@ -104,9 +137,15 @@ export default function EidPage() {
       <PremiumCardGrid
         cards={CARDS}
         selectedId={selected.id}
+        minaIslamicTemplate={{ templateSrc: EID_ISLAMIC_TEMPLATE }}
         onSelect={setSelected}
       />
-      <PremiumCardPreview ref={cardRef} card={selected} name={name} />
+      <PremiumCardPreview
+        ref={cardRef}
+        card={selected}
+        name={name}
+        minaIslamicTemplate={{ templateSrc: EID_ISLAMIC_TEMPLATE }}
+      />
       <label className="sr-only" htmlFor="eid-name">
         اسمك على البطاقة
       </label>
@@ -114,7 +153,7 @@ export default function EidPage() {
         id="eid-name"
         dir="rtl"
         style={arabicTextSurfaceStyle}
-        className="w-full max-w-[300px] rounded-2xl border border-[#fed7aa] bg-white px-4 py-3.5 text-right text-base text-[#1e293b] shadow-[0_2px_20px_-8px_rgba(180,83,9,0.12)] outline-none ring-2 ring-[rgba(201,162,39,0.2)] placeholder:text-[#94a3b8] focus:border-[rgba(201,162,39,0.5)] focus:ring-[rgba(201,162,39,0.35)]"
+        className="w-full max-w-[360px] rounded-2xl border border-[#fed7aa] bg-white px-4 py-3.5 text-right text-base text-[#1e293b] shadow-[0_2px_20px_-8px_rgba(180,83,9,0.12)] outline-none ring-2 ring-[rgba(201,162,39,0.2)] placeholder:text-[#94a3b8] focus:border-[rgba(201,162,39,0.5)] focus:ring-[rgba(201,162,39,0.35)]"
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="اكتب اسمك"

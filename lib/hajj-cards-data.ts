@@ -28,7 +28,7 @@ export const minaCards: HajjCardDef[] = [
         "bg-gradient-to-b from-[#022c22]/88 via-[#143d2f]/55 to-[#061510]/92",
       message:
         "text-center text-sm font-semibold leading-snug text-[#fffbeb] drop-shadow-md sm:text-base",
-      name: "mt-4 text-center text-base font-medium text-[#ecfdf5]/95 sm:text-lg",
+      name: "mt-7 text-center text-base font-medium text-[#ecfdf5]/95 sm:text-lg",
     },
   },
   {
@@ -43,7 +43,7 @@ export const minaCards: HajjCardDef[] = [
         "bg-gradient-to-tr from-[#0f2744]/90 via-[#064e3b]/40 to-[#0a1f33]/88",
       message:
         "text-center text-sm font-semibold leading-snug text-[#fdf6e3] sm:text-base",
-      name: "mt-4 text-center text-sm font-medium text-[#fef3c7]/90 sm:text-lg",
+      name: "mt-7 text-center text-sm font-medium text-[#fef3c7]/90 sm:text-lg",
     },
   },
   {
@@ -58,7 +58,7 @@ export const minaCards: HajjCardDef[] = [
         "bg-gradient-to-b from-[#1c1917]/75 via-[#022c22]/50 to-[#0c0a09]/88",
       message:
         "text-center text-sm font-semibold leading-snug text-[#fff8e7] sm:text-base",
-      name: "mt-5 text-center text-base font-semibold text-[#fde68a]/95 sm:text-lg",
+      name: "mt-8 text-center text-base font-semibold text-[#fde68a]/95 sm:text-lg",
     },
   },
 ];
@@ -76,7 +76,7 @@ export const arafahCards: HajjCardDef[] = [
         "bg-gradient-to-b from-[#1a2f4d]/92 via-[#2d6a4f]/35 to-[#0c1524]/93",
       message:
         "text-center text-sm font-semibold leading-snug text-[#fef3c7] sm:text-base",
-      name: "mt-4 text-center text-base font-medium text-[#ecfdf5] sm:text-lg",
+      name: "mt-7 text-center text-base font-medium text-[#ecfdf5] sm:text-lg",
     },
   },
   {
@@ -91,7 +91,7 @@ export const arafahCards: HajjCardDef[] = [
         "bg-gradient-to-t from-[#022c22]/90 via-[#1b4332]/60 to-[rgba(255,255,255,0)]",
       message:
         "text-center text-sm font-semibold leading-snug text-[#fafaf9] sm:text-base",
-      name: "mt-5 text-center text-sm font-semibold text-[#fde68a]/95 sm:text-base",
+      name: "mt-8 text-center text-sm font-semibold text-[#fde68a]/95 sm:text-base",
     },
   },
   {
@@ -106,7 +106,7 @@ export const arafahCards: HajjCardDef[] = [
         "bg-gradient-to-br from-[#0d1b2a]/88 via-[#064e3b]/55 to-[#100f0a]/90",
       message:
         "text-center text-sm font-semibold leading-snug text-[#fefae0] sm:text-base",
-      name: "mt-4 text-center text-base font-medium text-[#e7e5e4] sm:text-lg",
+      name: "mt-7 text-center text-base font-medium text-[#e7e5e4] sm:text-lg",
     },
   },
 ];
@@ -124,7 +124,7 @@ export const muzdalifahCards: HajjCardDef[] = [
         "bg-gradient-to-b from-[#1e1b4b]/80 via-[#064e3b]/45 to-[#0c0a09]/90",
       message:
         "text-center text-sm font-semibold leading-snug text-[#fffbeb] sm:text-base",
-      name: "mt-4 text-center text-base font-medium text-[#d1fae5] sm:text-lg",
+      name: "mt-7 text-center text-base font-medium text-[#d1fae5] sm:text-lg",
     },
   },
   {
@@ -139,7 +139,7 @@ export const muzdalifahCards: HajjCardDef[] = [
         "bg-gradient-to-t from-[#041f17]/92 via-[#132f28]/55 to-[#1c1917]/25",
       message:
         "text-center text-sm font-semibold leading-snug text-[#f5f5f4] sm:text-base",
-      name: "mt-5 text-center text-sm font-semibold text-[#fef3c7] sm:text-lg",
+      name: "mt-8 text-center text-sm font-semibold text-[#fef3c7] sm:text-lg",
     },
   },
   {
@@ -154,7 +154,7 @@ export const muzdalifahCards: HajjCardDef[] = [
         "bg-gradient-to-b from-[#0b1324]/90 via-[#1b3a2f]/50 to-[#050a08]/92",
       message:
         "text-center text-sm font-semibold leading-snug text-[#fffbeb] sm:text-base",
-      name: "mt-4 text-center text-base font-medium text-[#d1fae5]/90 sm:text-lg",
+      name: "mt-7 text-center text-base font-medium text-[#d1fae5]/90 sm:text-lg",
     },
   },
 ];
@@ -172,7 +172,7 @@ export const eidCards: HajjCardDef[] = [
         "bg-gradient-to-br from-[#1e3a5f]/85 via-[#065f46]/40 to-[#1c1917]/88",
       message:
         "text-center text-base font-bold leading-snug text-[#fef3c7] sm:text-lg",
-      name: "mt-5 text-center text-base font-semibold text-[#ecfdf5] sm:text-xl",
+      name: "mt-8 text-center text-base font-semibold text-[#ecfdf5] sm:text-xl",
     },
   },
   {
@@ -187,7 +187,7 @@ export const eidCards: HajjCardDef[] = [
         "bg-gradient-to-b from-[#1c1917]/78 via-[#2c1810]/45 to-[#1a120f]/90",
       message:
         "text-center text-sm font-semibold leading-snug text-[#fffbeb] sm:text-base",
-      name: "mt-4 text-center text-base font-medium text-[#f5f5f4] sm:text-lg",
+      name: "mt-7 text-center text-base font-medium text-[#f5f5f4] sm:text-lg",
     },
   },
   {
@@ -202,7 +202,7 @@ export const eidCards: HajjCardDef[] = [
         "bg-gradient-to-t from-[#0f172a]/88 via-[#14532d]/50 to-[#022c22]/30",
       message:
         "text-center text-sm font-semibold leading-snug text-[#fffbeb] sm:text-base",
-      name: "mt-4 text-center text-sm font-medium text-[#fef3c7] sm:text-lg",
+      name: "mt-7 text-center text-sm font-medium text-[#fef3c7] sm:text-lg",
     },
   },
   {
@@ -217,7 +217,7 @@ export const eidCards: HajjCardDef[] = [
         "bg-gradient-to-b from-[#022c22]/82 via-[#1e3a5f]/48 to-[#0f172a]/90",
       message:
         "text-center text-sm font-semibold leading-snug text-[#fde68a] sm:text-base",
-      name: "mt-5 text-center text-base font-semibold text-[#ecfdf5] sm:text-lg",
+      name: "mt-8 text-center text-base font-semibold text-[#ecfdf5] sm:text-lg",
     },
   },
   {
@@ -232,7 +232,7 @@ export const eidCards: HajjCardDef[] = [
         "bg-gradient-to-tr from-[#0c1f17]/90 via-[#1c1917]/50 to-[#1e3a5f]/80",
       message:
         "text-center text-sm font-semibold leading-snug text-[#fafaf9] sm:text-base",
-      name: "mt-4 text-center text-base font-medium text-[#fef3c7] sm:text-xl",
+      name: "mt-7 text-center text-base font-medium text-[#fef3c7] sm:text-xl",
     },
   },
 ];

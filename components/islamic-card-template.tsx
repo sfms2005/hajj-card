@@ -8,6 +8,7 @@ import {
 } from "@/lib/card-template-themes";
 import { mixHex, rgbaFromHex } from "@/lib/html2canvas-colors";
 import { arabicTextSurfaceStyle } from "@/lib/arabic-text";
+import { StationCardLogos } from "@/components/station-card-logos";
 
 export type IslamicCardTemplateProps = {
   title: string;
@@ -238,7 +239,7 @@ export const IslamicCardTemplate = forwardRef<
     <div
       ref={ref}
       dir="rtl"
-      className={`relative aspect-[3/4] w-full max-w-[300px] overflow-hidden rounded-[1.85rem] sm:max-w-[320px] sm:rounded-[2.1rem] ${className}`}
+      className={`relative aspect-[2160/3360] w-full max-w-[300px] overflow-hidden rounded-[1.85rem] sm:max-w-[340px] sm:rounded-[2.1rem] ${className}`}
       style={{
         ...arabicTextSurfaceStyle,
         backgroundColor: t.surface,
@@ -246,6 +247,7 @@ export const IslamicCardTemplate = forwardRef<
       }}
     >
       <CardWaves accent={t.accent} />
+      <StationCardLogos />
 
       <div className="relative z-[1] flex h-full flex-col px-5 pb-[26%] pt-6 sm:px-6 sm:pt-7">
         <MinaLineIcon stroke={t.accent} />

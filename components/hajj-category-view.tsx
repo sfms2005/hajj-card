@@ -12,6 +12,11 @@ import {
 } from "react";
 
 import type { HajjCardDef } from "@/lib/hajj-cards-data";
+import {
+  getStationCardHtml2canvasScale,
+  normalizeCardExportCanvas,
+} from "@/lib/card-dimensions";
+import { StationCardLogos } from "@/components/station-card-logos";
 import { arabicTextSurfaceStyle } from "@/lib/arabic-text";
 
 type HajjCategoryViewProps = {
@@ -35,7 +40,7 @@ const CardFace = forwardRef<
     <div
       ref={ref}
       dir="rtl"
-      className={`relative aspect-[4/5] w-full overflow-hidden rounded-[20px] ${card.style.shell} ${className ?? ""}`}
+      className={`relative aspect-[2160/3360] w-full overflow-hidden rounded-[20px] ${card.style.shell} ${className ?? ""}`}
       style={{ backgroundColor: CARD_FALLBACK_BG, ...arabicTextSurfaceStyle }}
     >
       <div
@@ -46,9 +51,10 @@ const CardFace = forwardRef<
         className={`pointer-events-none absolute inset-0 z-[1] bg-cover bg-center ${card.style.overlay}`}
         aria-hidden
       />
+      <StationCardLogos />
       <div
         className={`relative z-10 flex h-full flex-col items-center justify-center text-center ${
-          isThumbnail ? "px-3 py-5 sm:px-4 sm:py-6" : "px-6 py-10 sm:px-10 sm:py-12"
+          isThumbnail ? "px-[6%] py-[9%] sm:px-[8%] sm:py-[11%]" : "px-6 py-10 sm:px-10 sm:py-12"
         }`}
         dir="rtl"
         style={arabicTextSurfaceStyle}
@@ -56,7 +62,7 @@ const CardFace = forwardRef<
         <p
           className={`${card.style.message} ${
             isThumbnail
-              ? "!text-[0.56rem] !leading-[1.35] text-balance sm:!text-[0.65rem]"
+              ? "!text-[0.52rem] !leading-relaxed text-balance sm:!text-[0.61rem] sm:!leading-snug"
               : ""
           }`}
         >
@@ -65,7 +71,7 @@ const CardFace = forwardRef<
         <p
           className={`${card.style.name} ${
             isThumbnail
-              ? "!mt-2 !text-[0.62rem] sm:!text-[0.72rem]"
+              ? "!mt-8 !text-[0.58rem] sm:!text-[0.67rem]"
               : ""
           } ${!name.trim() && !isThumbnail ? "min-h-[1.5em] opacity-0" : ""}`}
         >
@@ -240,14 +246,14 @@ export function HajjCategoryView({
     });
 
     try {
-      const canvas = await html2canvas(node, {
-        scale: 2,
+      const raw = await html2canvas(node, {
+        scale: getStationCardHtml2canvasScale(node),
         useCORS: false,
         allowTaint: false,
         logging: false,
         backgroundColor: CARD_FALLBACK_BG,
       });
-      return canvas;
+      return normalizeCardExportCanvas(raw);
     } catch (e) {
       console.error("[hajj-cards] capture: html2canvas failed", e);
       return null;

@@ -3,6 +3,11 @@
 import { ChevronLeft, Gift, Landmark, Moon, Sun } from "lucide-react";
 import Link from "next/link";
 
+import {
+  STATION_HAPPY_LOGO_SRC,
+  STATION_QASED_LOGO_SRC,
+} from "@/components/station-card-logos";
+
 const destinations = [
   {
     href: "/mina",
@@ -36,6 +41,20 @@ export default function Home() {
       dir="rtl"
       className="selection-gold relative min-h-screen text-[#152a45]"
     >
+      <img
+        src={STATION_HAPPY_LOGO_SRC}
+        alt=""
+        decoding="async"
+        draggable={false}
+        className="pointer-events-none absolute top-4 left-4 z-20 h-auto max-h-[4.5rem] w-auto max-w-[min(54vw,13rem)] object-contain object-top-left sm:top-6 sm:left-6 sm:max-h-24 sm:max-w-[13rem]"
+      />
+      <img
+        src={STATION_QASED_LOGO_SRC}
+        alt=""
+        decoding="async"
+        draggable={false}
+        className="pointer-events-none absolute top-4 right-4 z-20 h-auto max-h-[5.5rem] w-auto max-w-[min(62vw,15rem)] object-contain object-top-right sm:top-6 sm:right-6 sm:max-h-28 sm:max-w-[15rem]"
+      />
       <div className="relative mx-auto flex min-h-screen max-w-md flex-col px-5 pt-12 pb-16 sm:max-w-lg sm:px-6 sm:pt-16 sm:pb-20">
         <header className="animate-home-enter mb-10 text-center sm:mb-12">
           <h1 className="text-[1.65rem] font-bold leading-snug text-[#152a45] sm:text-3xl">
