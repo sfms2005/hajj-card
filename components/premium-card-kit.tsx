@@ -274,10 +274,10 @@ export const PremiumCardPreview = forwardRef<
       isMinaStationTheme(card.theme) ||
       isArafahSpiritTheme(card.theme);
     const nameMtClass = extraNameTopMargin
-      ? "mt-8 shrink-0 text-[1.1rem] font-semibold sm:mt-9 sm:text-[1.26rem]"
+      ? "mt-14 shrink-0 text-[1.1rem] font-semibold sm:mt-16 sm:text-[1.26rem]"
       : "mt-7 shrink-0 text-[1.1rem] font-semibold sm:mt-8 sm:text-[1.26rem]";
     const nameEmptyMtClass = extraNameTopMargin
-      ? "mt-8 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-9 sm:text-[1.18rem]"
+      ? "mt-14 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-16 sm:text-[1.18rem]"
       : "mt-7 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-8 sm:text-[1.18rem]";
     return (
       <div
