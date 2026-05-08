@@ -37,6 +37,20 @@ const CARDS: PremiumCardData[] = [
     theme: "muzNightSlate",
     text: "اللهم تقبل منا صالح الأعمال، واجعلنا من الذاكرين الشاكرين.",
   },
+  {
+    id: 4,
+    image: "/muzdalifah4.jpg",
+    minaTemplateBackground: "/blue_card.png",
+    theme: "muzNightDeep",
+    text: "اللهم ونحن في مزدلفة بين الدعاء والرجاء، احفظ من أحب، واغفر له، وأكرمه براحة البال وسعة الرزق وحسن العاقبة.",
+  },
+  {
+    id: 5,
+    image: "/muzdalifah5.jpg",
+    minaTemplateBackground: "/purple_card.png",
+    theme: "muzNightNavy",
+    text: "من مزدلفة وفي هذه الليلة المباركة، أسأل الله لمن أحب سكينةً تملأ قلبه، ورحمةً تغشاه، وتوفيقًا يرافقه في كل خطوة.",
+  },
 ];
 
 /** نفس قالب منى — الخلفيات من `minaTemplateBackground` لكل بطاقة */

@@ -61,6 +61,51 @@ export const minaCards: HajjCardDef[] = [
       name: "mt-8 text-center text-base font-semibold text-[#fde68a]/95 sm:text-lg",
     },
   },
+  {
+    id: "mina-4",
+    message:
+      "اللهم في يوم التروية ارزق من أحب راحةً تملأ قلبه، وبركةً في عمره ورزقه، وطمأنينةً لا تزول.",
+    style: {
+      shell:
+        "ring-1 ring-[#065f46]/25 shadow-[0_20px_50px_-15px_rgba(15,81,50,0.55)]",
+      fill: "bg-gradient-to-br from-[#14532d] via-[#15803d] to-[#052e16]",
+      overlay:
+        "bg-gradient-to-b from-[#022c22]/88 via-[#143d2f]/55 to-[#061510]/92",
+      message:
+        "text-center text-sm font-semibold leading-snug text-[#fffbeb] drop-shadow-md sm:text-base",
+      name: "mt-7 text-center text-base font-medium text-[#ecfdf5]/95 sm:text-lg",
+    },
+  },
+  {
+    id: "mina-5",
+    message:
+      "من منى أرفع دعائي لك: اللهم احفظ من أحب بعينك التي لا تنام، ووفقه لكل خير.",
+    style: {
+      shell:
+        "ring-1 ring-[#1e3a5f]/30 shadow-[0_18px_45px_-14px_rgba(30,58,95,0.5)]",
+      fill: "bg-gradient-to-tr from-[#0c4a6e] via-[#134e4a] to-[#0f172a]",
+      overlay:
+        "bg-gradient-to-tr from-[#0f2744]/90 via-[#064e3b]/40 to-[#0a1f33]/88",
+      message:
+        "text-center text-sm font-semibold leading-snug text-[#fdf6e3] sm:text-base",
+      name: "mt-7 text-center text-sm font-medium text-[#fef3c7]/90 sm:text-lg",
+    },
+  },
+  {
+    id: "mina-6",
+    message:
+      "اللهم في هذه المشاعر المباركة اجعل لمن أحب نصيبًا من الرحمة والمغفرة والقبول.",
+    style: {
+      shell:
+        "ring-1 ring-[#fcd34d]/40 shadow-[0_22px_48px_-16px_rgba(201,162,39,0.35)]",
+      fill: "bg-gradient-to-b from-[#57534e] via-[#1c4538] to-[#1c1917]",
+      overlay:
+        "bg-gradient-to-b from-[#1c1917]/75 via-[#022c22]/50 to-[#0c0a09]/88",
+      message:
+        "text-center text-sm font-semibold leading-snug text-[#fff8e7] sm:text-base",
+      name: "mt-8 text-center text-base font-semibold text-[#fde68a]/95 sm:text-lg",
+    },
+  },
 ];
 
 export const arafahCards: HajjCardDef[] = [
@@ -109,6 +154,36 @@ export const arafahCards: HajjCardDef[] = [
       name: "mt-7 text-center text-base font-medium text-[#e7e5e4] sm:text-lg",
     },
   },
+  {
+    id: "arafah-4",
+    message:
+      "اللهم في يوم عرفة، خير الأيام وأعظمها، اغفر لمن أحب ذنوبه، ويسّر أموره، واكتب له من الخير أكثر مما يرجو.",
+    style: {
+      shell:
+        "ring-1 ring-[#c9a227]/35 shadow-[0_20px_52px_-12px_rgba(30,58,95,0.45)]",
+      fill: "bg-gradient-to-b from-[#1d4ed8] via-[#2d6a4f] to-[#0f172a]",
+      overlay:
+        "bg-gradient-to-b from-[#1a2f4d]/92 via-[#2d6a4f]/35 to-[#0c1524]/93",
+      message:
+        "text-center text-sm font-semibold leading-snug text-[#fef3c7] sm:text-base",
+      name: "mt-7 text-center text-base font-medium text-[#ecfdf5] sm:text-lg",
+    },
+  },
+  {
+    id: "arafah-5",
+    message:
+      "اللهم إنّي دعوتك في يوم عرفة المبارك، فاجعل لمن أحب دعوةً لا تُرد، ورزقًا لا ينقطع، وقلبًا مطمئنًا.",
+    style: {
+      shell:
+        "ring-1 ring-[rgba(255,255,255,0.2)] shadow-[0_16px_40px_-10px_rgba(15,61,46,0.5)]",
+      fill: "bg-gradient-to-t from-[#78350f] via-[#3f6212] to-[#134e4a]",
+      overlay:
+        "bg-gradient-to-t from-[#022c22]/90 via-[#1b4332]/60 to-[rgba(255,255,255,0)]",
+      message:
+        "text-center text-sm font-semibold leading-snug text-[#fafaf9] sm:text-base",
+      name: "mt-8 text-center text-sm font-semibold text-[#fde68a]/95 sm:text-base",
+    },
+  },
 ];
 
 export const muzdalifahCards: HajjCardDef[] = [
@@ -155,6 +230,36 @@ export const muzdalifahCards: HajjCardDef[] = [
       message:
         "text-center text-sm font-semibold leading-snug text-[#fffbeb] sm:text-base",
       name: "mt-7 text-center text-base font-medium text-[#d1fae5]/90 sm:text-lg",
+    },
+  },
+  {
+    id: "muz-4",
+    message:
+      "اللهم ونحن في مزدلفة بين الدعاء والرجاء، احفظ من أحب، واغفر له، وأكرمه براحة البال وسعة الرزق وحسن العاقبة.",
+    style: {
+      shell:
+        "ring-1 ring-[#1e3a5f]/25 shadow-[0_18px_46px_-14px_rgba(24,44,72,0.48)]",
+      fill: "bg-gradient-to-b from-[#312e81] via-[#166534] to-[#0c0a09]",
+      overlay:
+        "bg-gradient-to-b from-[#1e1b4b]/80 via-[#064e3b]/45 to-[#0c0a09]/90",
+      message:
+        "text-center text-sm font-semibold leading-snug text-[#fffbeb] sm:text-base",
+      name: "mt-7 text-center text-base font-medium text-[#d1fae5] sm:text-lg",
+    },
+  },
+  {
+    id: "muz-5",
+    message:
+      "من مزدلفة وفي هذه الليلة المباركة، أسأل الله لمن أحب سكينةً تملأ قلبه، ورحمةً تغشاه، وتوفيقًا يرافقه في كل خطوة.",
+    style: {
+      shell:
+        "ring-1 ring-[#fde68a]/50 shadow-[0_20px_50px_-15px_rgba(45,106,79,0.42)]",
+      fill: "bg-gradient-to-t from-[#064e3b] via-[#134e4a] to-[#44403c]",
+      overlay:
+        "bg-gradient-to-t from-[#041f17]/92 via-[#132f28]/55 to-[#1c1917]/25",
+      message:
+        "text-center text-sm font-semibold leading-snug text-[#f5f5f4] sm:text-base",
+      name: "mt-8 text-center text-sm font-semibold text-[#fef3c7] sm:text-lg",
     },
   },
 ];
@@ -233,6 +338,21 @@ export const eidCards: HajjCardDef[] = [
       message:
         "text-center text-sm font-semibold leading-snug text-[#fafaf9] sm:text-base",
       name: "mt-7 text-center text-base font-medium text-[#fef3c7] sm:text-xl",
+    },
+  },
+  {
+    id: "eid-6",
+    message:
+      "أبارك لكم عيد الأضحى المبارك من أطهر البقاع، وأسأل الله أن يتقبل حجّنا وطاعاتنا، وأن يجعل أيامكم فرحًا وسعادةً وطمأنينة.",
+    style: {
+      shell:
+        "ring-1 ring-[#c9a227]/45 shadow-[0_22px_55px_-14px_rgba(201,162,39,0.4)]",
+      fill: "bg-gradient-to-br from-[#1e3a5f] via-[#b45309] to-[#14532d]",
+      overlay:
+        "bg-gradient-to-br from-[#1e3a5f]/85 via-[#065f46]/40 to-[#1c1917]/88",
+      message:
+        "text-center text-sm font-semibold leading-snug text-[#fef3c7] sm:text-base",
+      name: "mt-8 text-center text-base font-semibold text-[#ecfdf5] sm:text-lg",
     },
   },
 ];

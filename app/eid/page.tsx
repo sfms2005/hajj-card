@@ -71,6 +71,21 @@ const CARDS: PremiumCardData[] = [
     theme: "eidTea",
     text: "عيد أضحى سعيد، جعله الله عيد فرح وسرور عليكم.",
   },
+  {
+    id: 6,
+    image: "/eid6.jpg",
+    minaTemplateBackground: "/Eid2.png",
+    minaIslamicTextTweak: {
+      contentInsetClassName:
+        "items-center justify-start px-[10%] pb-[6%] pt-[58%] text-center sm:px-[11%] sm:pb-[7%] sm:pt-[63%]",
+      gridDuaClassName:
+        "line-clamp-6 max-w-[94%] text-center text-[0.6rem] font-medium leading-[1.65] sm:text-[0.72rem] sm:leading-[1.7]",
+      previewDuaClassName:
+        "max-w-[94%] text-[1rem] font-medium leading-[1.7] sm:text-[1.12rem] sm:leading-[1.72]",
+    },
+    theme: "eidPearl",
+    text: "أبارك لكم عيد الأضحى المبارك من أطهر البقاع، وأسأل الله أن يتقبل حجّنا وطاعاتنا، وأن يجعل أيامكم فرحًا وسعادةً وطمأنينة.",
+  },
 ];
 
 /** نفس قالب منى — الخلفيات من `minaTemplateBackground` لكل بطاقة */

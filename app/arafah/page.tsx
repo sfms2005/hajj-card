@@ -37,6 +37,20 @@ const CARDS: PremiumCardData[] = [
     theme: "arafahGrace",
     text: "اللهم تقبل دعاءنا واغفر زلاتنا، وحقق لنا ما نتمنى.",
   },
+  {
+    id: 4,
+    image: "/arafah4.jpg",
+    minaTemplateBackground: "/blue_card.png",
+    theme: "arafahPeace",
+    text: "اللهم في يوم عرفة، خير الأيام وأعظمها، اغفر لمن أحب ذنوبه، ويسّر أموره، واكتب له من الخير أكثر مما يرجو.",
+  },
+  {
+    id: 5,
+    image: "/arafah5.jpg",
+    minaTemplateBackground: "/purple_card.png",
+    theme: "arafahRadiance",
+    text: "اللهم إنّي دعوتك في يوم عرفة المبارك، فاجعل لمن أحب دعوةً لا تُرد، ورزقًا لا ينقطع، وقلبًا مطمئنًا.",
+  },
 ];
 
 /** نفس قالب منى — خلفيات البطاقات من `minaTemplateBackground` لكل بطاقة */

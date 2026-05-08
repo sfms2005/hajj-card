@@ -37,6 +37,27 @@ const CARDS: PremiumCardData[] = [
     theme: "minaDune",
     text: "اللهم أعنا على ذكرك وشكرك وحسن عبادتك، واجعلنا من المقبولين.",
   },
+  {
+    id: 4,
+    image: "/mina4.jpg",
+    minaTemplateBackground: "/blue_card.png",
+    theme: "minaSage",
+    text: "اللهم في يوم التروية ارزق من أحب راحةً تملأ قلبه، وبركةً في عمره ورزقه، وطمأنينةً لا تزول.",
+  },
+  {
+    id: 5,
+    image: "/mina5.jpg",
+    minaTemplateBackground: "/purple_card.png",
+    theme: "minaGilded",
+    text: "من منى أرفع دعائي لك: اللهم احفظ من أحب بعينك التي لا تنام، ووفقه لكل خير.",
+  },
+  {
+    id: 6,
+    image: "/mina6.jpg",
+    minaTemplateBackground: "/green_card.png",
+    theme: "minaDune",
+    text: "اللهم في هذه المشاعر المباركة اجعل لمن أحب نصيبًا من الرحمة والمغفرة والقبول.",
+  },
 ];
 
 /** Shared Islamic template art — contained, no crop/stretch on card surface */
