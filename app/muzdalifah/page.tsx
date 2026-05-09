@@ -135,7 +135,6 @@ export default function MuzdalifahPage() {
       try {
         await navigator.share({
           files: [file],
-          title: "بطاقة مزدلفة",
         });
         return;
       } catch {

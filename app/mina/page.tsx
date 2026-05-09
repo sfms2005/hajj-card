@@ -122,7 +122,6 @@ export default function MinaPage() {
       try {
         await navigator.share({
           files: [file],
-          title: "بطاقة منى",
         });
         return;
       } catch {

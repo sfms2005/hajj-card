@@ -152,7 +152,6 @@ export default function ArafahPage() {
       try {
         await navigator.share({
           files: [file],
-          title: "بطاقة عرفة",
         });
         return;
       } catch {

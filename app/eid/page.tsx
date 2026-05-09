@@ -136,7 +136,6 @@ export default function EidPage() {
       try {
         await navigator.share({
           files: [file],
-          title: "بطاقة العيد",
         });
         return;
       } catch {
