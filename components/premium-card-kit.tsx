@@ -4,6 +4,7 @@ import { forwardRef } from "react";
 import {
   getCardTemplateTheme,
   isArafahSpiritTheme,
+  isEidFestiveTheme,
   isMinaStationTheme,
   isMuzdalifahNightTheme,
 } from "@/lib/card-template-themes";
@@ -27,12 +28,20 @@ const MINA_TEXT_NAME_EMPTY = "#8a9a82";
 
 /** تخصيص اختياري لموضع/حجم دعاء القالب الإسلامي (شبكة + معاينة) لكل بطاقة */
 export type MinaIslamicPerCardTextTweak = {
-  /** استبدال كلاسات المسافات العلوية والجانبية المشتركة بعد `flex-col` */
+  /** استبدال كلاسات المسافات العلوية والجانبية المشتركة بعد `flex-col` (للاثنين معًا) */
   contentInsetClassName?: string;
+  /** override خاص بالمصغّرة فقط؛ يتقدم على contentInsetClassName */
+  gridContentInsetClassName?: string;
+  /** override خاص بالمعاينة الكبيرة فقط؛ يتقدم على contentInsetClassName */
+  previewContentInsetClassName?: string;
   /** استبدال كلاس نص الدعاء في المصغّرة */
   gridDuaClassName?: string;
   /** استبدال كلاس نص الدعاء في المعاينة الكبيرة */
   previewDuaClassName?: string;
+  /** استبدال كلاس الهامش العلوي + حجم الاسم في المعاينة (عند وجود اسم) */
+  previewNameMtClassName?: string;
+  /** استبدال كلاس الهامش العلوي + حجم placeholder الاسم في المعاينة */
+  previewNameEmptyMtClassName?: string;
 };
 
 const MINA_ISLAMIC_CONTENT_INSET_DEFAULT =
@@ -155,6 +164,7 @@ export function PremiumCardGrid({
             ? `0 0 0 2px ${t.accent}, ${t.shadow}`
             : `0 0 0 1px ${rgbaFromHex(t.accent, 0.35)}`;
           const inset =
+            card.minaIslamicTextTweak?.gridContentInsetClassName ??
             card.minaIslamicTextTweak?.contentInsetClassName ??
             MINA_ISLAMIC_CONTENT_INSET_DEFAULT;
           const gridDua =
@@ -264,6 +274,7 @@ export const PremiumCardPreview = forwardRef<
   if (minaIslamicTemplate) {
     const { templateSrc } = minaIslamicTemplate;
     const inset =
+      card.minaIslamicTextTweak?.previewContentInsetClassName ??
       card.minaIslamicTextTweak?.contentInsetClassName ??
       MINA_ISLAMIC_CONTENT_INSET_DEFAULT;
     const previewDua =
@@ -273,12 +284,21 @@ export const PremiumCardPreview = forwardRef<
       isMuzdalifahNightTheme(card.theme) ||
       isMinaStationTheme(card.theme) ||
       isArafahSpiritTheme(card.theme);
-    const nameMtClass = extraNameTopMargin
-      ? "mt-14 shrink-0 text-[1.1rem] font-semibold sm:mt-16 sm:text-[1.26rem]"
-      : "mt-7 shrink-0 text-[1.1rem] font-semibold sm:mt-8 sm:text-[1.26rem]";
-    const nameEmptyMtClass = extraNameTopMargin
-      ? "mt-14 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-16 sm:text-[1.18rem]"
-      : "mt-7 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-8 sm:text-[1.18rem]";
+    const eidNameTopMargin = isEidFestiveTheme(card.theme);
+    const nameMtClass =
+      card.minaIslamicTextTweak?.previewNameMtClassName ??
+      (extraNameTopMargin
+        ? "mt-14 shrink-0 text-[1.1rem] font-semibold sm:mt-16 sm:text-[1.26rem]"
+        : eidNameTopMargin
+          ? "mt-10 shrink-0 text-[1.1rem] font-semibold sm:mt-12 sm:text-[1.26rem]"
+          : "mt-7 shrink-0 text-[1.1rem] font-semibold sm:mt-8 sm:text-[1.26rem]");
+    const nameEmptyMtClass =
+      card.minaIslamicTextTweak?.previewNameEmptyMtClassName ??
+      (extraNameTopMargin
+        ? "mt-14 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-16 sm:text-[1.18rem]"
+        : eidNameTopMargin
+          ? "mt-10 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-12 sm:text-[1.18rem]"
+          : "mt-7 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-8 sm:text-[1.18rem]");
     return (
       <div
         ref={ref}

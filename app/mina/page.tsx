@@ -15,11 +15,20 @@ import {
 } from "@/lib/card-dimensions";
 import { arabicTextSurfaceStyle } from "@/lib/arabic-text";
 
+/** هامش الاسم المرفوع لبطاقات منى في المعاينة الكبيرة */
+const MINA_RAISED_NAME_TWEAK = {
+  previewNameMtClassName:
+    "mt-10 shrink-0 text-[1.1rem] font-semibold sm:mt-12 sm:text-[1.26rem]",
+  previewNameEmptyMtClassName:
+    "mt-10 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-12 sm:text-[1.18rem]",
+} as const;
+
 const CARDS: PremiumCardData[] = [
   {
     id: 1,
     image: "/mina1.jpg",
     minaTemplateBackground: "/blue_card.png",
+    minaIslamicTextTweak: { ...MINA_RAISED_NAME_TWEAK },
     theme: "minaSage",
     text: "اللهم تقبل منا ومنكم، واجعل حجنا مبرورًا وسعينا مشكورًا وذنبنا مغفورًا.",
   },
@@ -27,6 +36,7 @@ const CARDS: PremiumCardData[] = [
     id: 2,
     image: "/mina2.jpg",
     minaTemplateBackground: "/purple_card.png",
+    minaIslamicTextTweak: { ...MINA_RAISED_NAME_TWEAK },
     theme: "minaGilded",
     text: "اللهم ارزقنا القبول والرضا، واكتب لنا تمام الأجر وحسن الخاتمة.",
   },
@@ -34,6 +44,7 @@ const CARDS: PremiumCardData[] = [
     id: 3,
     image: "/mina3.jpg",
     minaTemplateBackground: "/green_card.png",
+    minaIslamicTextTweak: { ...MINA_RAISED_NAME_TWEAK },
     theme: "minaDune",
     text: "اللهم أعنا على ذكرك وشكرك وحسن عبادتك، واجعلنا من المقبولين.",
   },
@@ -41,6 +52,7 @@ const CARDS: PremiumCardData[] = [
     id: 4,
     image: "/mina4.jpg",
     minaTemplateBackground: "/blue_card.png",
+    minaIslamicTextTweak: { ...MINA_RAISED_NAME_TWEAK },
     theme: "minaSage",
     text: "اللهم في يوم التروية ارزق من أحب راحةً تملأ قلبه، وبركةً في عمره ورزقه، وطمأنينةً لا تزول.",
   },
@@ -48,6 +60,7 @@ const CARDS: PremiumCardData[] = [
     id: 5,
     image: "/mina5.jpg",
     minaTemplateBackground: "/purple_card.png",
+    minaIslamicTextTweak: { ...MINA_RAISED_NAME_TWEAK },
     theme: "minaGilded",
     text: "من منى أرفع دعائي لك: اللهم احفظ من أحب بعينك التي لا تنام، ووفقه لكل خير.",
   },
@@ -55,6 +68,7 @@ const CARDS: PremiumCardData[] = [
     id: 6,
     image: "/mina6.jpg",
     minaTemplateBackground: "/green_card.png",
+    minaIslamicTextTweak: { ...MINA_RAISED_NAME_TWEAK },
     theme: "minaDune",
     text: "اللهم في هذه المشاعر المباركة اجعل لمن أحب نصيبًا من الرحمة والمغفرة والقبول.",
   },
@@ -68,9 +82,9 @@ export default function MinaPage() {
   const [selected, setSelected] = useState<PremiumCardData>(CARDS[0]);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  const downloadCard = async () => {
+  const downloadBlob = async (): Promise<Blob | null> => {
     const el = cardRef.current;
-    if (!el) return;
+    if (!el) return null;
     const raw = await html2canvas(el, {
       scale: getStationCardHtml2canvasScale(el),
       useCORS: true,
@@ -79,29 +93,43 @@ export default function MinaPage() {
       allowTaint: false,
     });
     const canvas = normalizeCardExportCanvas(raw);
-    const link = document.createElement("a");
-    link.download = "mina-hajj-card.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+    return new Promise((resolve) => {
+      canvas.toBlob((b) => resolve(b), "image/png");
+    });
   };
 
-  const sharePage = async () => {
-    const url = window.location.href;
-    const title = "بطاقات منى";
-    if (navigator.share) {
+  const downloadCard = async () => {
+    const blob = await downloadBlob();
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.download = "mina-hajj-card.png";
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const shareCard = async () => {
+    const blob = await downloadBlob();
+    if (!blob) {
+      await downloadCard();
+      return;
+    }
+
+    const file = new File([blob], "mina-hajj-card.png", { type: "image/png" });
+
+    if (navigator.share && navigator.canShare?.({ files: [file] })) {
       try {
         await navigator.share({
-          title,
-          text: "اختر بطاقة وأضف اسمك",
-          url,
+          files: [file],
+          title: "بطاقة منى",
         });
         return;
       } catch {
-        /* user cancelled */
+        /* fallback */
       }
     }
-    await navigator.clipboard.writeText(url);
-    alert("تم نسخ رابط الصفحة.");
+    await downloadCard();
   };
 
   return (
@@ -131,7 +159,7 @@ export default function MinaPage() {
         placeholder="اكتب اسمك"
         autoComplete="off"
       />
-      <StationActionBar onDownload={downloadCard} onShare={sharePage} />
+      <StationActionBar onDownload={downloadCard} onShare={shareCard} />
     </StationPageShell>
   );
 }

@@ -20,6 +20,12 @@ const CARDS: PremiumCardData[] = [
     id: 1,
     image: "/muzdalifah1.jpg",
     minaTemplateBackground: "/blue_card.png",
+    minaIslamicTextTweak: {
+      previewNameMtClassName:
+        "mt-10 shrink-0 text-[1.1rem] font-semibold sm:mt-12 sm:text-[1.26rem]",
+      previewNameEmptyMtClassName:
+        "mt-10 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-12 sm:text-[1.18rem]",
+    },
     theme: "muzNightDeep",
     text: "اللهم اكتب لنا السكينة والطمأنينة، واملأ قلوبنا بالإيمان.",
   },
@@ -27,6 +33,12 @@ const CARDS: PremiumCardData[] = [
     id: 2,
     image: "/muzdalifah2.jpg",
     minaTemplateBackground: "/purple_card.png",
+    minaIslamicTextTweak: {
+      previewNameMtClassName:
+        "mt-10 shrink-0 text-[1.1rem] font-semibold sm:mt-12 sm:text-[1.26rem]",
+      previewNameEmptyMtClassName:
+        "mt-10 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-12 sm:text-[1.18rem]",
+    },
     theme: "muzNightNavy",
     text: "اللهم اجعلها ليلة خير وبركة، واكتب لنا فيها الأجر العظيم.",
   },
@@ -34,6 +46,12 @@ const CARDS: PremiumCardData[] = [
     id: 3,
     image: "/muzdalifah3.jpg",
     minaTemplateBackground: "/green_card.png",
+    minaIslamicTextTweak: {
+      previewNameMtClassName:
+        "mt-10 shrink-0 text-[1.1rem] font-semibold sm:mt-12 sm:text-[1.26rem]",
+      previewNameEmptyMtClassName:
+        "mt-10 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-12 sm:text-[1.18rem]",
+    },
     theme: "muzNightSlate",
     text: "اللهم تقبل منا صالح الأعمال، واجعلنا من الذاكرين الشاكرين.",
   },
@@ -41,6 +59,14 @@ const CARDS: PremiumCardData[] = [
     id: 4,
     image: "/muzdalifah4.jpg",
     minaTemplateBackground: "/blue_card.png",
+    minaIslamicTextTweak: {
+      previewContentInsetClassName:
+        "items-center justify-start px-[10%] pb-[6%] pt-[75%] text-center sm:px-[11%] sm:pb-[7%] sm:pt-[80%]",
+      previewNameMtClassName:
+        "mt-4 shrink-0 text-[1.1rem] font-semibold sm:mt-6 sm:text-[1.26rem]",
+      previewNameEmptyMtClassName:
+        "mt-4 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-6 sm:text-[1.18rem]",
+    },
     theme: "muzNightDeep",
     text: "اللهم ونحن في مزدلفة بين الدعاء والرجاء، احفظ من أحب، واغفر له، وأكرمه براحة البال وسعة الرزق وحسن العاقبة.",
   },
@@ -48,6 +74,14 @@ const CARDS: PremiumCardData[] = [
     id: 5,
     image: "/muzdalifah5.jpg",
     minaTemplateBackground: "/purple_card.png",
+    minaIslamicTextTweak: {
+      previewContentInsetClassName:
+        "items-center justify-start px-[10%] pb-[6%] pt-[75%] text-center sm:px-[11%] sm:pb-[7%] sm:pt-[80%]",
+      previewNameMtClassName:
+        "mt-4 shrink-0 text-[1.1rem] font-semibold sm:mt-6 sm:text-[1.26rem]",
+      previewNameEmptyMtClassName:
+        "mt-4 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-6 sm:text-[1.18rem]",
+    },
     theme: "muzNightNavy",
     text: "من مزدلفة وفي هذه الليلة المباركة، أسأل الله لمن أحب سكينةً تملأ قلبه، ورحمةً تغشاه، وتوفيقًا يرافقه في كل خطوة.",
   },
@@ -102,7 +136,6 @@ export default function MuzdalifahPage() {
         await navigator.share({
           files: [file],
           title: "بطاقة مزدلفة",
-          text: name ? `بطاقة لِـ ${name}` : undefined,
         });
         return;
       } catch {

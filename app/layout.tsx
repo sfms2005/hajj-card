@@ -3,11 +3,28 @@ import "./globals.css";
 import "./html2canvas-overrides.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  ),
   title: {
     default: "بطاقات الحج والعيد",
     template: "%s | بطاقات الحج",
   },
-  description: "بطاقات تهنئة أنيقة لمناسك الحج والعيد — تصاميم فاخرة بألوان هادئة",
+  description:
+    "بطاقات تهنئة أنيقة لمناسك الحج والعيد — تصاميم فاخرة بألوان هادئة",
+  openGraph: {
+    title: "بطاقات الحج والعيد",
+    description:
+      "بطاقات تهنئة أنيقة لمناسك الحج والعيد — تصاميم فاخرة بألوان هادئة",
+    type: "website",
+    locale: "ar_SA",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "بطاقات الحج والعيد",
+    description:
+      "بطاقات تهنئة أنيقة لمناسك الحج والعيد — تصاميم فاخرة بألوان هادئة",
+  },
 };
 
 export default function RootLayout({

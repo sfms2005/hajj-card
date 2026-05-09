@@ -15,11 +15,24 @@ import {
 } from "@/lib/card-dimensions";
 import { arabicTextSurfaceStyle } from "@/lib/arabic-text";
 
+/** ارتفاع منطقة النص لبطاقات عرفة (ما عدا الأخيرة) */
+const ARAFAH_RAISED_INSET =
+  "items-center justify-start px-[10%] pb-[6%] pt-[75%] text-center sm:px-[11%] sm:pb-[7%] sm:pt-[80%]";
+
 const CARDS: PremiumCardData[] = [
   {
     id: 1,
     image: "/arafah1.jpg",
     minaTemplateBackground: "/blue_card.png",
+    minaIslamicTextTweak: {
+      contentInsetClassName: ARAFAH_RAISED_INSET,
+      previewContentInsetClassName:
+        "items-center justify-start px-[10%] pb-[6%] pt-[80%] text-center sm:px-[11%] sm:pb-[7%] sm:pt-[85%]",
+      previewNameMtClassName:
+        "mt-10 shrink-0 text-[1.1rem] font-semibold sm:mt-12 sm:text-[1.26rem]",
+      previewNameEmptyMtClassName:
+        "mt-10 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-12 sm:text-[1.18rem]",
+    },
     theme: "arafahPeace",
     text: "اللهم إنك عفو تحب العفو فاعفُ عنا، واغفر لنا وارحمنا.",
   },
@@ -27,6 +40,12 @@ const CARDS: PremiumCardData[] = [
     id: 2,
     image: "/arafah2.jpg",
     minaTemplateBackground: "/purple_card.png",
+    minaIslamicTextTweak: {
+      gridContentInsetClassName:
+        "items-center justify-start px-[10%] pb-[6%] pt-[68%] text-center sm:px-[11%] sm:pb-[7%] sm:pt-[72%]",
+      previewContentInsetClassName:
+        "items-center justify-start px-[10%] pb-[6%] pt-[85%] text-center sm:px-[11%] sm:pb-[7%] sm:pt-[90%]",
+    },
     theme: "arafahRadiance",
     text: "اللهم اعتق رقابنا من النار، واكتبنا من أهل الجنة.",
   },
@@ -34,6 +53,15 @@ const CARDS: PremiumCardData[] = [
     id: 3,
     image: "/arafah3.jpg",
     minaTemplateBackground: "/green_card.png",
+    minaIslamicTextTweak: {
+      contentInsetClassName: ARAFAH_RAISED_INSET,
+      previewContentInsetClassName:
+        "items-center justify-start px-[10%] pb-[6%] pt-[80%] text-center sm:px-[11%] sm:pb-[7%] sm:pt-[85%]",
+      previewNameMtClassName:
+        "mt-10 shrink-0 text-[1.1rem] font-semibold sm:mt-12 sm:text-[1.26rem]",
+      previewNameEmptyMtClassName:
+        "mt-10 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-12 sm:text-[1.18rem]",
+    },
     theme: "arafahGrace",
     text: "اللهم تقبل دعاءنا واغفر زلاتنا، وحقق لنا ما نتمنى.",
   },
@@ -41,6 +69,17 @@ const CARDS: PremiumCardData[] = [
     id: 4,
     image: "/arafah4.jpg",
     minaTemplateBackground: "/blue_card.png",
+    minaIslamicTextTweak: {
+      contentInsetClassName: ARAFAH_RAISED_INSET,
+      gridDuaClassName:
+        "line-clamp-6 max-w-[94%] text-center text-[0.58rem] font-medium leading-[1.72] sm:text-[0.71rem] sm:leading-[1.74]",
+      previewDuaClassName:
+        "max-w-[94%] text-[1.1rem] font-medium leading-[1.74] sm:text-[1.24rem] sm:leading-[1.76]",
+      previewNameMtClassName:
+        "mt-8 shrink-0 text-[1.1rem] font-semibold sm:mt-10 sm:text-[1.26rem]",
+      previewNameEmptyMtClassName:
+        "mt-8 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-10 sm:text-[1.18rem]",
+    },
     theme: "arafahPeace",
     text: "اللهم في يوم عرفة، خير الأيام وأعظمها، اغفر لمن أحب ذنوبه، ويسّر أموره، واكتب له من الخير أكثر مما يرجو.",
   },
@@ -48,6 +87,18 @@ const CARDS: PremiumCardData[] = [
     id: 5,
     image: "/arafah5.jpg",
     minaTemplateBackground: "/purple_card.png",
+    minaIslamicTextTweak: {
+      contentInsetClassName:
+        "items-center justify-start px-[10%] pb-[6%] pt-[80%] text-center sm:px-[11%] sm:pb-[7%] sm:pt-[85%]",
+      gridDuaClassName:
+        "line-clamp-6 max-w-[94%] text-center text-[0.58rem] font-medium leading-[1.72] sm:text-[0.71rem] sm:leading-[1.74]",
+      previewDuaClassName:
+        "max-w-[94%] text-[1.1rem] font-medium leading-[1.74] sm:text-[1.24rem] sm:leading-[1.76]",
+      previewNameMtClassName:
+        "mt-12 shrink-0 text-[1.1rem] font-semibold sm:mt-14 sm:text-[1.26rem]",
+      previewNameEmptyMtClassName:
+        "mt-12 min-h-[1.35rem] shrink-0 text-[1.05rem] sm:mt-14 sm:text-[1.18rem]",
+    },
     theme: "arafahRadiance",
     text: "اللهم إنّي دعوتك في يوم عرفة المبارك، فاجعل لمن أحب دعوةً لا تُرد، ورزقًا لا ينقطع، وقلبًا مطمئنًا.",
   },
@@ -102,7 +153,6 @@ export default function ArafahPage() {
         await navigator.share({
           files: [file],
           title: "بطاقة عرفة",
-          text: name ? `بطاقة لِـ ${name}` : undefined,
         });
         return;
       } catch {
